@@ -4,8 +4,11 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    QApplication app(argc, argv);
+    QCoreApplication::setApplicationName("Aero Control Center");
+    QCoreApplication::setApplicationVersion("0.0.1");
+
+    MainWindow window;
+    window.show();
+    return app.exec();
 }
