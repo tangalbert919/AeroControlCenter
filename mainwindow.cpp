@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     char temp[64];
     FILE *file = fopen("/sys/class/dmi/id/product_family", "r");
     fgets(temp, 64, file);
-    log.info("%s", temp);
     fclose(file);
     if (strcmp(temp, "AERO\n") != 0) {
         QMessageBox msgBox;
