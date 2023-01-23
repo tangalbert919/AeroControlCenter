@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "utils.h"
+
 #include <QMainWindow>
 #include <QGraphicsScene>
 
@@ -17,9 +19,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    QTimer *timer;
 
 private:
     Ui::MainWindow *ui;
+    Utils *utils;
 
     QGraphicsScene *cpuScene, *gpuScene, *memoryScene;
 };

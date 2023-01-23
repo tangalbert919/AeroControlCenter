@@ -23,6 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
         parent->close();
     }
 
+    // TODO: Rename this class.
+    utils = new Utils();
+
     // Setup initial UI.
     ui->setupUi(this);
 
