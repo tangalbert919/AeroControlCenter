@@ -32,7 +32,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fan2RPM->display(2018);
 
     // Setup CPU, GPU, and memory views
-    // TODO: Remove scroll bars on all three views
     cpuScene = new QGraphicsScene(this);
     ui->cpuView->setScene(cpuScene);
     cpuScene->setSceneRect(QRectF(0,0,256,192));
