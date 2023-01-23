@@ -7,15 +7,27 @@ MainWindow::MainWindow(QWidget *parent)
 {
     // Setup initial UI.
     ui->setupUi(this);
-    ui->fan1RPM->display(1987);
 
-    // Setup CPU view (TODO: Actually display CPU usage)
-    scene = new QGraphicsScene(this);
-    ui->cpuView->setScene(scene);
-    //QGraphicsScene scene = ui->cpuView->scene();
-    scene->setSceneRect(QRectF(0,0,256,192));
-    //QGraphicsTextItem text = "Hello World!";
-    scene->addText("Hello World!");
+    // Setup fan RPM display (TODO: Actually get fan RPM)
+    ui->fan1RPM->display(1987);
+    ui->fan2RPM->display(2018);
+
+    // Setup CPU, GPU, and memory views
+    // TODO: Remove scroll bars on all three views
+    cpuScene = new QGraphicsScene(this);
+    ui->cpuView->setScene(cpuScene);
+    cpuScene->setSceneRect(QRectF(0,0,256,192));
+    cpuScene->addText("TODO: Get CPU usage");
+
+    gpuScene = new QGraphicsScene(this);
+    ui->gpuView->setScene(gpuScene);
+    gpuScene->setSceneRect(QRectF(0,0,256,192));
+    gpuScene->addText("TODO: Get GPU usage");
+
+    memoryScene = new QGraphicsScene(this);
+    ui->memoryView->setScene(memoryScene);
+    memoryScene->setSceneRect(QRectF(0,0,256,192));
+    memoryScene->addText("TODO: Get memory usage");
 }
 
 MainWindow::~MainWindow()

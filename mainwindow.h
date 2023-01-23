@@ -2,8 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
 #include <QGraphicsScene>
+
+#include <libusb-1.0/libusb.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +21,6 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    QGraphicsScene *scene;
+    QGraphicsScene *cpuScene, *gpuScene, *memoryScene;
 };
 #endif // MAINWINDOW_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>720</height>
+    <width>800</width>
+    <height>576</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -175,7 +175,7 @@
      <string>0%</string>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
+   <widget class="QGraphicsView" name="gpuView">
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -185,7 +185,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView_2">
+   <widget class="QGraphicsView" name="memoryView">
     <property name="geometry">
      <rect>
       <x>530</x>
@@ -201,7 +201,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
+     <width>800</width>
      <height>22</height>
     </rect>
    </property>
@@ -235,6 +235,38 @@
     <hint type="sourcelabel">
      <x>179</x>
      <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanNormalBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>fanCustomSlider</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>454</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>135</x>
+     <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanQuietBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>fanCustomSlider</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>494</y>
     </hint>
     <hint type="destinationlabel">
      <x>135</x>

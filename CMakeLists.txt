@@ -18,6 +18,8 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
+        utils.cpp
+        utils.h
         mainwindow.ui
 )
 
