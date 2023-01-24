@@ -4,6 +4,7 @@
 #include "utils.h"
 
 #include <QMainWindow>
+#include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 
 #include <libusb-1.0/libusb.h>
@@ -30,5 +31,6 @@ private:
 
     QGraphicsEllipseItem *cpuGauge, *gpuGauge, *memoryGauge;
     QGraphicsScene *cpuScene, *gpuScene, *memoryScene;
+    QGraphicsTextItem *cpuText, *gpuText, *memoryText;
 };
 #endif // MAINWINDOW_H

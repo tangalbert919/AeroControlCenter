@@ -2,7 +2,6 @@
 #include "./ui_mainwindow.h"
 
 #include <cmath>
-#include <QGraphicsEllipseItem>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -56,19 +55,28 @@ MainWindow::MainWindow(QWidget *parent)
     cpuGauge->setSpanAngle(-270 * 16);
     cpuGauge->setPen(pen);
     cpuScene->addItem(cpuGauge);
+    cpuText = cpuScene->addText("Polling CPU usage...");
+    cpuText->setY(150);
+    cpuText->setX(127 - (cpuText->boundingRect().width() / 2));
 
     // Disabled for now, as polling GPU usage is not available.
     /*gpuGauge = new QGraphicsEllipseItem(53,21,150,150);
     gpuGauge->setStartAngle(225 * 16);
     gpuGauge->setSpanAngle(-270 * 16);
     gpuGauge->setPen(pen);
-    gpuScene->addItem(gpuGauge);*/
+    gpuScene->addItem(gpuGauge);
+    gpuText = gpuScene->addText("Polling GPU usage...");
+    gpuText->setY(150);
+    gpuText->setX(127 - (gpuText->boundingRect().width() / 2));*/
 
     memoryGauge = new QGraphicsEllipseItem(53,21,150,150);
     memoryGauge->setStartAngle(225 * 16);
     memoryGauge->setSpanAngle(-270 * 16);
     memoryGauge->setPen(pen);
     memoryScene->addItem(memoryGauge);
+    memoryText = memoryScene->addText("Polling memory usage...");
+    memoryText->setY(150);
+    memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
 
     // Start timer to refresh gauge
     timer = new QTimer(this);
@@ -83,10 +91,26 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::updateGauge() {
-    int cpuUse = (int) std::round(270 * (utils->getCPUUsage()));
-    cpuGauge->setSpanAngle(-cpuUse * 16);
-    //int gpuUse = (int) std::round(270 * utils->getGPUUsage());
-    //gpuGauge->setSpanAngle(-gpuUse * 16);
-    int memoryUse = (int) std::round(270 * utils->getMemoryUsage());
-    memoryGauge->setSpanAngle(-memoryUse * 16);
+    // Because we are going clockwise, span angle must be negative.
+    double cpuUse = utils->getCPUUsage();
+    double cpuSpanAngle = -270 * cpuUse;
+    cpuGauge->setSpanAngle((int) std::round(cpuSpanAngle) * 16);
+    //double gpuUse = utils->getGPUUsage();
+    //double gpuSpanAngle = -270 * gpuUse;
+    //gpuGauge->setSpanAngle((int) std::round(gpuSpanAngle) * 16);
+    double memoryUse = utils->getMemoryUsage();
+    double memorySpanAngle = -270 * memoryUse;
+    memoryGauge->setSpanAngle((int) std::round(memorySpanAngle) * 16);
+
+    // Update and realign text for the gauges.
+    char temp[32];
+    sprintf(temp, "CPU: %0.1f%%", cpuUse * 100);
+    cpuText->setPlainText(temp);
+    cpuText->setX(127 - (cpuText->boundingRect().width() / 2));
+    /*sprintf(temp, "GPU: %0.1f%%", gpuUse * 100);
+    gpuText->setPlainText(temp);
+    gpuText->setX(127 - (gpuText->boundingRect().width() / 2));*/
+    sprintf(temp, "Memory: %0.1f%%", memoryUse * 100);
+    memoryText->setPlainText(temp);
+    memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
 }
