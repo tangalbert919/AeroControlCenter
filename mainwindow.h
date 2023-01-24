@@ -21,10 +21,14 @@ public:
     ~MainWindow();
     QTimer *timer;
 
+public slots:
+    void updateGauge();
+
 private:
     Ui::MainWindow *ui;
     Utils *utils;
 
+    QGraphicsEllipseItem *cpuGauge, *gpuGauge, *memoryGauge;
     QGraphicsScene *cpuScene, *gpuScene, *memoryScene;
 };
 #endif // MAINWINDOW_H

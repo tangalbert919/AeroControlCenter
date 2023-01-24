@@ -9,15 +9,17 @@ struct sysinfo memInfo;
 
 Utils::Utils()
 {
-    // Load initial values to populate main window later.
-    init();
-    sysinfo(&memInfo);
-
     // Get total RAM installed and available.
+    sysinfo(&memInfo);
     totalPhysMem = memInfo.totalram;
     totalPhysMem *= memInfo.mem_unit;
     physMemUsed = memInfo.totalram - memInfo.freeram;
     physMemUsed *= memInfo.mem_unit;
+
+    FILE* file = fopen("/proc/stat", "r");
+    fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow,
+        &lastTotalSys, &lastTotalIdle);
+    fclose(file);
 
     // Start timer.
     timer = new QTimer(this);
@@ -26,34 +28,32 @@ Utils::Utils()
     timer->start(2000);
 }
 
-double Utils::getCpuUsage() {
+double Utils::getCPUUsage() {
     return cpuUsage;
 }
 
-// TODO: Return percentage instead of bytes.
-unsigned long long Utils::getMemoryUsage() {
+double Utils::getGPUUsage() {
+    return gpuUsage;
+}
+
+double Utils::getMemoryUsage() {
+    // Cast to double, or method returns 0.
+    return (double) physMemUsed / (double) totalPhysMem;
+}
+
+unsigned long long Utils::getMemoryUsageBytes() {
     return physMemUsed;
 }
 
 void Utils::updateStats() {
-    //printf("test utils\n");
-    //printf("%llu\n", physMemUsed);
-    //printf("%f\n", cpuUsage);
-    cpuUsage = getCurrentValue();
+    physMemUsed = memInfo.totalram - memInfo.freeram;
+    physMemUsed *= memInfo.mem_unit;
+    cpuUsage = updateCPUUsage();
+    gpuUsage = updateGPUUsage();
 }
 
 // https://stackoverflow.com/questions/63166/how-to-determine-cpu-and-memory-consumption-from-inside-a-process
-//static unsigned long long lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
-
-void Utils::init()
-{
-    FILE* file = fopen("/proc/stat", "r");
-    fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow,
-        &lastTotalSys, &lastTotalIdle);
-    fclose(file);
-}
-
-double Utils::getCurrentValue()
+double Utils::updateCPUUsage()
 {
     double percent;
     FILE* file;
@@ -75,7 +75,7 @@ double Utils::getCurrentValue()
         percent = total;
         total += (totalIdle - lastTotalIdle);
         percent /= total;
-        percent *= 100;
+        //percent *= 100;
     }
 
     lastTotalUser = totalUser;
@@ -84,4 +84,9 @@ double Utils::getCurrentValue()
     lastTotalIdle = totalIdle;
 
     return percent;
+}
+
+double Utils::updateGPUUsage() {
+    // TODO: Implement GPU usage.
+    return 0;
 }

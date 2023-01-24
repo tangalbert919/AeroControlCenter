@@ -9,8 +9,10 @@ class Utils : public QObject
 public:
     Utils();
     QTimer *timer;
-    double getCpuUsage();
-    unsigned long long getMemoryUsage();
+    double getCPUUsage();
+    double getGPUUsage();
+    double getMemoryUsage();
+    unsigned long long getMemoryUsageBytes();
 
 public slots:
     void updateStats();
@@ -18,10 +20,10 @@ public slots:
 private:
     long long totalPhysMem, physMemUsed;
     unsigned long long lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
-    double cpuUsage = 0;
+    double cpuUsage = 0, gpuUsage = 0;
 
-    void init();
-    double getCurrentValue();
+    double updateCPUUsage();
+    double updateGPUUsage();
 };
 
 #endif // UTILS_H
