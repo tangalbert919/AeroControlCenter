@@ -103,14 +103,18 @@ void MainWindow::updateGauge() {
     memoryGauge->setSpanAngle((int) std::round(memorySpanAngle) * 16);
 
     // Update and realign text for the gauges.
-    char temp[32];
+    char temp[48];
     sprintf(temp, "CPU: %0.1f%%", cpuUse * 100);
     cpuText->setPlainText(temp);
     cpuText->setX(127 - (cpuText->boundingRect().width() / 2));
     /*sprintf(temp, "GPU: %0.1f%%", gpuUse * 100);
     gpuText->setPlainText(temp);
     gpuText->setX(127 - (gpuText->boundingRect().width() / 2));*/
-    sprintf(temp, "Memory: %0.1f%%", memoryUse * 100);
+    sprintf(temp, "Memory: %0.1f%% (%0.2f GB/%0.2f GB)",
+            memoryUse * 100,
+            // Convert from bytes to gigabytes.
+            (double) utils->getMemoryUsageBytes() / 1073741824,
+            (double) utils->getMemoryTotal() / 1073741824);
     memoryText->setPlainText(temp);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
 }

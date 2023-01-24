@@ -45,6 +45,10 @@ unsigned long long Utils::getMemoryUsageBytes() {
     return physMemUsed;
 }
 
+unsigned long long Utils::getMemoryTotal() {
+    return totalPhysMem;
+}
+
 void Utils::updateStats() {
     physMemUsed = memInfo.totalram - memInfo.freeram;
     physMemUsed *= memInfo.mem_unit;

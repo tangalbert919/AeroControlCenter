@@ -13,6 +13,7 @@ public:
     double getGPUUsage();
     double getMemoryUsage();
     unsigned long long getMemoryUsageBytes();
+    unsigned long long getMemoryTotal();
 
 public slots:
     void updateStats();
