@@ -28,28 +28,34 @@ Utils::Utils()
     timer->start(2000);
 }
 
-double Utils::getCPUUsage() {
+double Utils::getCPUUsage()
+{
     return cpuUsage;
 }
 
-double Utils::getGPUUsage() {
+double Utils::getGPUUsage()
+{
     return gpuUsage;
 }
 
-double Utils::getMemoryUsage() {
+double Utils::getMemoryUsage()
+{
     // Cast to double, or method returns 0.
     return (double) physMemUsed / (double) totalPhysMem;
 }
 
-unsigned long long Utils::getMemoryUsageBytes() {
+unsigned long long Utils::getMemoryUsageBytes()
+{
     return physMemUsed;
 }
 
-unsigned long long Utils::getMemoryTotal() {
+unsigned long long Utils::getMemoryTotal()
+{
     return totalPhysMem;
 }
 
-void Utils::updateStats() {
+void Utils::updateStats()
+{
     physMemUsed = memInfo.totalram - memInfo.freeram;
     physMemUsed *= memInfo.mem_unit;
     cpuUsage = updateCPUUsage();
@@ -69,7 +75,7 @@ double Utils::updateCPUUsage()
     fclose(file);
 
     if (totalUser < lastTotalUser || totalUserLow < lastTotalUserLow ||
-        totalSys < lastTotalSys || totalIdle < lastTotalIdle){
+        totalSys < lastTotalSys || totalIdle < lastTotalIdle) {
         //Overflow detection. Just skip this value.
         percent = -1.0;
     }
@@ -90,7 +96,8 @@ double Utils::updateCPUUsage()
     return percent;
 }
 
-double Utils::updateGPUUsage() {
+double Utils::updateGPUUsage()
+{
     // TODO: Implement GPU usage.
     return 0;
 }

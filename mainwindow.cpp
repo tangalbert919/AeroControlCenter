@@ -100,7 +100,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::updateGauge() {
+void MainWindow::updateGauge()
+{
     // Because we are going clockwise, span angle must be negative.
     double cpuUse = utils->getCPUUsage();
     double cpuSpanAngle = -270 * cpuUse;
