@@ -29,8 +29,16 @@ private:
     Ui::MainWindow *ui;
     Utils *utils;
 
+    // Hardware statistics
     QGraphicsEllipseItem *cpuGauge, *gpuGauge, *memoryGauge;
     QGraphicsScene *cpuScene, *gpuScene, *memoryScene;
     QGraphicsTextItem *cpuText, *gpuText, *memoryText;
+
+    // Menu bar
+    QMenu *fileMenu;
+    QAction *aboutAction;
+
+private slots:
+    void openAboutPopup();
 };
 #endif // MAINWINDOW_H

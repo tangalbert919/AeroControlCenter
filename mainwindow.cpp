@@ -30,6 +30,16 @@ MainWindow::MainWindow(QWidget *parent)
     // Setup initial UI.
     ui->setupUi(this);
 
+    // Setup the menus for the menubar.
+    // TODO: Move this to separate method.
+    fileMenu = new QMenu("File");
+    aboutAction = new QAction("About...");
+    aboutAction->setShortcut(QKeySequence::SelectAll);
+    aboutAction->setIcon(QIcon("document-open"));
+    connect(aboutAction, &QAction::triggered, this, &MainWindow::openAboutPopup);
+    fileMenu->addAction(aboutAction);
+    ui->menubar->addMenu(fileMenu);
+
     // Setup fan RPM display (TODO: Actually get fan RPM)
     ui->fan1RPM->display(1987);
     ui->fan2RPM->display(2018);
@@ -117,4 +127,13 @@ void MainWindow::updateGauge() {
             (double) utils->getMemoryTotal() / 1073741824);
     memoryText->setPlainText(temp);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
+}
+
+void MainWindow::openAboutPopup()
+{
+    QMessageBox aboutBox;
+    aboutBox.setWindowTitle("About this program");
+    aboutBox.setText("Aero Control Center");
+    aboutBox.setIcon(QMessageBox::Information);
+    aboutBox.exec();
 }
