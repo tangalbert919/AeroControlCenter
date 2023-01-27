@@ -20,6 +20,8 @@ set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
+        rgbkeyboard.cpp
+        rgbkeyboard.h
         utils.cpp
         utils.h
         mainwindow.ui

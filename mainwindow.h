@@ -7,8 +7,6 @@
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
 
-#include <libusb-1.0/libusb.h>
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
