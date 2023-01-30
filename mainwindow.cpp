@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include <cmath>
+#include <cstring>
 #include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -12,10 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     // Detect if program is running on an Aero machine.
     // Otherwise, create a popup and exit.
     char temp[64];
-    FILE *file = fopen("/sys/class/dmi/id/product_family", "r");
-    fgets(temp, 64, file);
-    fclose(file);
-    if (strcmp(temp, "AERO\n") != 0) {
+    FILE *file = std::fopen("/sys/class/dmi/id/product_family", "r");
+    std::fgets(temp, 64, file);
+    std::fclose(file);
+    if (std::strcmp(temp, "AERO\n") != 0) {
         QMessageBox msgBox;
         msgBox.setWindowTitle("WARNING");
         msgBox.setText("This program will only run on an Aero machine.");
@@ -115,13 +116,13 @@ void MainWindow::updateGauge()
 
     // Update and realign text for the gauges.
     char temp[48];
-    sprintf(temp, "CPU: %0.1f%%", cpuUse * 100);
+    std::sprintf(temp, "CPU: %0.1f%%", cpuUse * 100);
     cpuText->setPlainText(temp);
     cpuText->setX(127 - (cpuText->boundingRect().width() / 2));
-    /*sprintf(temp, "GPU: %0.1f%%", gpuUse * 100);
+    /*std::sprintf(temp, "GPU: %0.1f%%", gpuUse * 100);
     gpuText->setPlainText(temp);
     gpuText->setX(127 - (gpuText->boundingRect().width() / 2));*/
-    sprintf(temp, "Memory: %0.1f%% (%0.2f GB/%0.2f GB)",
+    std::sprintf(temp, "Memory: %0.1f%% (%0.2f GB/%0.2f GB)",
             memoryUse * 100,
             // Convert from kilobytes to gigabytes.
             (double) utils->getMemoryUsageBytes() / 1048576,

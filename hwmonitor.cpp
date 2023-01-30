@@ -6,15 +6,15 @@
 HWMonitor::HWMonitor()
 {
     // Get inital CPU stats
-    FILE *file = fopen("/proc/stat", "r");
-    fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow,
+    FILE *file = std::fopen("/proc/stat", "r");
+    std::fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow,
         &lastTotalSys, &lastTotalIdle);
-    fclose(file);
+    std::fclose(file);
 
     // Get total RAM installed and available.
-    file = fopen("/proc/meminfo", "r");
-    fscanf(file, "MemTotal: %llu kB\nMemFree: %llu kB\nMemAvailable: %llu kB", &physMemTotal, &physMemUsed, &physMemAvailable);
-    fclose(file);
+    file = std::fopen("/proc/meminfo", "r");
+    std::fscanf(file, "MemTotal: %llu kB\nMemFree: %llu kB\nMemAvailable: %llu kB", &physMemTotal, &physMemUsed, &physMemAvailable);
+    std::fclose(file);
 
     // Start timer.
     timer = new QTimer(this);
@@ -51,9 +51,9 @@ unsigned long long HWMonitor::getMemoryTotal()
 
 void HWMonitor::updateStats()
 {
-    FILE *file = fopen("/proc/meminfo", "r");
-    fscanf(file, "MemTotal: %llu kB\nMemFree: %llu kB\nMemAvailable: %llu kB", &physMemTotal, &physMemUsed, &physMemAvailable);
-    fclose(file);
+    FILE *file = std::fopen("/proc/meminfo", "r");
+    std::fscanf(file, "MemTotal: %llu kB\nMemFree: %llu kB\nMemAvailable: %llu kB", &physMemTotal, &physMemUsed, &physMemAvailable);
+    std::fclose(file);
     cpuUsage = updateCPUUsage();
     gpuUsage = updateGPUUsage();
 }
@@ -65,10 +65,10 @@ double HWMonitor::updateCPUUsage()
     FILE *file;
     unsigned long long totalUser, totalUserLow, totalSys, totalIdle, total;
 
-    file = fopen("/proc/stat", "r");
-    fscanf(file, "cpu %llu %llu %llu %llu", &totalUser, &totalUserLow,
+    file = std::fopen("/proc/stat", "r");
+    std::fscanf(file, "cpu %llu %llu %llu %llu", &totalUser, &totalUserLow,
         &totalSys, &totalIdle);
-    fclose(file);
+    std::fclose(file);
 
     if (totalUser < lastTotalUser || totalUserLow < lastTotalUserLow ||
         totalSys < lastTotalSys || totalIdle < lastTotalIdle) {

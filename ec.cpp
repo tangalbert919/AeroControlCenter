@@ -1,5 +1,7 @@
 #include "ec.h"
 
+#include <cstdio>
+
 EC::EC()
 {
     // Create the timer.
@@ -21,7 +23,7 @@ void EC::checkEC()
     // This should be in modprobe.d
     //system("modprobe ec_sys write_support=1");
     // TODO: Get this working without the need for root access.
-    FILE *fp = fopen("/sys/kernel/debug/ec/ec0/io", "r+");
+    FILE *fp = std::fopen("/sys/kernel/debug/ec/ec0/io", "r+");
     fanRPM[0] = read16(fp, 0xFC);
     fanRPM[1] = read16(fp, 0xFE);
 }
@@ -30,8 +32,8 @@ void EC::checkEC()
 // It has been adapted for C++.
 unsigned short EC::read16(FILE* f, unsigned char offset)
 {
-    fseek(f, offset, SEEK_SET);
+    std::fseek(f, offset, SEEK_SET);
     unsigned short s = 0;
-    fread(&s, sizeof(unsigned short), 1, f);
+    std::fread(&s, sizeof(unsigned short), 1, f);
     return htobe16(s);
 }
