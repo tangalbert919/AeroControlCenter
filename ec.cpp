@@ -12,6 +12,12 @@ EC::EC()
     timer->start(2000);
 }
 
+EC::~EC()
+{
+    timer->stop();
+    delete timer;
+}
+
 unsigned short *EC::getFanRPM()
 {
     return fanRPM;

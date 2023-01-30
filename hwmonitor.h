@@ -8,7 +8,9 @@ class HWMonitor : public QObject
     Q_OBJECT
 public:
     HWMonitor();
+    ~HWMonitor();
     QTimer *timer;
+
     double getCPUUsage();
     double getGPUUsage();
     double getMemoryUsage();

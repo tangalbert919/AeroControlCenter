@@ -8,6 +8,7 @@ class EC : public QObject
     Q_OBJECT
 public:
     EC();
+    ~EC();
     QTimer *timer;
 
     unsigned short *getFanRPM();

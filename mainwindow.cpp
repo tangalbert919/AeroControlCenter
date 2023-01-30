@@ -98,6 +98,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    timer->stop();
+    delete timer;
+
     delete ui;
 }
 

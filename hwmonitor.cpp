@@ -23,6 +23,12 @@ HWMonitor::HWMonitor()
     timer->start(2000);
 }
 
+HWMonitor::~HWMonitor()
+{
+    timer->stop();
+    delete timer;
+}
+
 double HWMonitor::getCPUUsage()
 {
     return cpuUsage;
