@@ -15,15 +15,15 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        ec.h
         ec.cpp
+        ec.h
         main.cpp
         mainwindow.cpp
         mainwindow.h
         rgbkeyboard.cpp
         rgbkeyboard.h
-        utils.cpp
-        utils.h
+        hwmonitor.cpp
+        hwmonitor.h
         mainwindow.ui
 )
 

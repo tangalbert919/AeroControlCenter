@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "utils.h"
+#include "hwmonitor.h"
 
 #include <QMainWindow>
 #include <QGraphicsEllipseItem>
@@ -25,7 +25,7 @@ public slots:
 
 private:
     Ui::MainWindow *ui;
-    Utils *utils;
+    HWMonitor *utils;
 
     // Hardware statistics
     QGraphicsEllipseItem *cpuGauge, *gpuGauge, *memoryGauge;

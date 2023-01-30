@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
         parent->close();
     }
 
-    // TODO: Rename this class.
-    utils = new Utils();
+    // Setup hardware monitor.
+    utils = new HWMonitor();
 
     // Setup initial UI.
     ui->setupUi(this);

@@ -1,4 +1,4 @@
-#include "utils.h"
+#include "hwmonitor.h"
 
 #include "sys/sysinfo.h"
 
@@ -7,7 +7,7 @@
 
 struct sysinfo memInfo;
 
-Utils::Utils()
+HWMonitor::HWMonitor()
 {
     // Get total RAM installed and available.
     sysinfo(&memInfo);
@@ -28,33 +28,33 @@ Utils::Utils()
     timer->start(2000);
 }
 
-double Utils::getCPUUsage()
+double HWMonitor::getCPUUsage()
 {
     return cpuUsage;
 }
 
-double Utils::getGPUUsage()
+double HWMonitor::getGPUUsage()
 {
     return gpuUsage;
 }
 
-double Utils::getMemoryUsage()
+double HWMonitor::getMemoryUsage()
 {
     // Cast to double, or method returns 0.
     return (double) physMemUsed / (double) totalPhysMem;
 }
 
-unsigned long long Utils::getMemoryUsageBytes()
+unsigned long long HWMonitor::getMemoryUsageBytes()
 {
     return physMemUsed;
 }
 
-unsigned long long Utils::getMemoryTotal()
+unsigned long long HWMonitor::getMemoryTotal()
 {
     return totalPhysMem;
 }
 
-void Utils::updateStats()
+void HWMonitor::updateStats()
 {
     physMemUsed = memInfo.totalram - memInfo.freeram;
     physMemUsed *= memInfo.mem_unit;
@@ -63,7 +63,7 @@ void Utils::updateStats()
 }
 
 // https://stackoverflow.com/questions/63166/how-to-determine-cpu-and-memory-consumption-from-inside-a-process
-double Utils::updateCPUUsage()
+double HWMonitor::updateCPUUsage()
 {
     double percent;
     FILE* file;
@@ -96,7 +96,7 @@ double Utils::updateCPUUsage()
     return percent;
 }
 
-double Utils::updateGPUUsage()
+double HWMonitor::updateGPUUsage()
 {
     // TODO: Implement GPU usage.
     return 0;

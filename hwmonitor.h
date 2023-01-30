@@ -1,13 +1,13 @@
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef HWMONITOR_H
+#define HWMONITOR_H
 
 #include <QTimer>
 
-class Utils : public QObject
+class HWMonitor : public QObject
 {
     Q_OBJECT
 public:
-    Utils();
+    HWMonitor();
     QTimer *timer;
     double getCPUUsage();
     double getGPUUsage();
