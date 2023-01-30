@@ -123,9 +123,9 @@ void MainWindow::updateGauge()
     gpuText->setX(127 - (gpuText->boundingRect().width() / 2));*/
     sprintf(temp, "Memory: %0.1f%% (%0.2f GB/%0.2f GB)",
             memoryUse * 100,
-            // Convert from bytes to gigabytes.
-            (double) utils->getMemoryUsageBytes() / 1073741824,
-            (double) utils->getMemoryTotal() / 1073741824);
+            // Convert from kilobytes to gigabytes.
+            (double) utils->getMemoryUsageBytes() / 1048576,
+            (double) utils->getMemoryTotal() / 1048576);
     memoryText->setPlainText(temp);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
 }

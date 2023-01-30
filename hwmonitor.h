@@ -19,7 +19,7 @@ public slots:
     void updateStats();
 
 private:
-    long long totalPhysMem, physMemUsed;
+    long long physMemTotal, physMemUsed, physMemAvailable;
     unsigned long long lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
     double cpuUsage = 0, gpuUsage = 0;
 

@@ -1,24 +1,19 @@
 #include "hwmonitor.h"
 
-#include "sys/sysinfo.h"
-
 #include <bits/types/FILE.h>
 #include <cstdio>
 
-struct sysinfo memInfo;
-
 HWMonitor::HWMonitor()
 {
-    // Get total RAM installed and available.
-    sysinfo(&memInfo);
-    totalPhysMem = memInfo.totalram;
-    totalPhysMem *= memInfo.mem_unit;
-    physMemUsed = memInfo.totalram - memInfo.freeram;
-    physMemUsed *= memInfo.mem_unit;
-
-    FILE* file = fopen("/proc/stat", "r");
+    // Get inital CPU stats
+    FILE *file = fopen("/proc/stat", "r");
     fscanf(file, "cpu %llu %llu %llu %llu", &lastTotalUser, &lastTotalUserLow,
         &lastTotalSys, &lastTotalIdle);
+    fclose(file);
+
+    // Get total RAM installed and available.
+    file = fopen("/proc/meminfo", "r");
+    fscanf(file, "MemTotal: %llu kB\nMemFree: %llu kB\nMemAvailable: %llu kB", &physMemTotal, &physMemUsed, &physMemAvailable);
     fclose(file);
 
     // Start timer.
@@ -41,23 +36,24 @@ double HWMonitor::getGPUUsage()
 double HWMonitor::getMemoryUsage()
 {
     // Cast to double, or method returns 0.
-    return (double) physMemUsed / (double) totalPhysMem;
+    return (double) (physMemTotal - physMemAvailable) / (double) physMemTotal;
 }
 
 unsigned long long HWMonitor::getMemoryUsageBytes()
 {
-    return physMemUsed;
+    return physMemTotal - physMemAvailable;
 }
 
 unsigned long long HWMonitor::getMemoryTotal()
 {
-    return totalPhysMem;
+    return physMemTotal;
 }
 
 void HWMonitor::updateStats()
 {
-    physMemUsed = memInfo.totalram - memInfo.freeram;
-    physMemUsed *= memInfo.mem_unit;
+    FILE *file = fopen("/proc/meminfo", "r");
+    fscanf(file, "MemTotal: %llu kB\nMemFree: %llu kB\nMemAvailable: %llu kB", &physMemTotal, &physMemUsed, &physMemAvailable);
+    fclose(file);
     cpuUsage = updateCPUUsage();
     gpuUsage = updateGPUUsage();
 }
@@ -66,7 +62,7 @@ void HWMonitor::updateStats()
 double HWMonitor::updateCPUUsage()
 {
     double percent;
-    FILE* file;
+    FILE *file;
     unsigned long long totalUser, totalUserLow, totalSys, totalIdle, total;
 
     file = fopen("/proc/stat", "r");
