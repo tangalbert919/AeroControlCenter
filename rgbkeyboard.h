@@ -15,6 +15,9 @@ public:
 private:
     hid_device *handle;
     struct hid_device_info *info;
+    bool keyboardAttached = false;
+
+    int registerKeyboard(struct hid_device_info *info);
 };
 
 #endif // RGBKEYBOARD_H
