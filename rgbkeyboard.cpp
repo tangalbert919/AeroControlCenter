@@ -20,7 +20,7 @@ RGBKeyboard::RGBKeyboard()
     if (info) {
         // Make sure the device manufacturer is Gigabyte and the device is a keyboard.
         if (std::wcscmp(info->manufacturer_string, L"GIGABYTE\n") &&
-                std::wcscmp(info->product_string, L"USB-HID Keyboard")) {
+                std::wcscmp(info->product_string, L"USB-HID Keyboard\n")) {
             handle = hid_open(info->vendor_id, info->product_id, info->serial_number);
             if (!handle) {
                 // Failed to open device.
