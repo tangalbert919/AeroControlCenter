@@ -213,6 +213,19 @@
      <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
    </widget>
+   <widget class="QLabel" name="cpuLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>256</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>CPU: </string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

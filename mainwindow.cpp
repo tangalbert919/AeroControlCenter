@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstring>
 #include <QMessageBox>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -88,6 +89,26 @@ MainWindow::MainWindow(QWidget *parent)
     memoryText = memoryScene->addText("Polling memory usage...");
     memoryText->setY(150);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
+
+    // Get CPU info (TODO: Move to new method)
+    QString cpuInfo = " Not obtained";
+    QFile qf("/proc/cpuinfo");
+    if (!qf.open(QIODevice::ReadOnly | QIODevice::Text))
+        qDebug("failed");
+    else {
+        QTextStream in(&qf);
+        QString line = in.readLine();
+        bool cpuInfoFound = false;
+        while (!line.isNull() && !cpuInfoFound) {
+            if (line.contains("model name")) {
+                cpuInfo = line.sliced(line.indexOf(":") + 1);
+                cpuInfoFound = true;
+            }
+            line = in.readLine();
+        }
+    }
+    ui->cpuLabel->setText("CPU:" + cpuInfo);
+    qf.close();
 
     // Start timer to refresh gauge
     timer = new QTimer(this);
