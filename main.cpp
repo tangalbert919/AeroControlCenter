@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("Aero Control Center");
-    QCoreApplication::setApplicationVersion("0.0.1");
+    QCoreApplication::setApplicationVersion(BUILD_VERSION);
 
     MainWindow window;
     window.show();

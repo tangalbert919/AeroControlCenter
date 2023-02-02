@@ -138,7 +138,7 @@ void MainWindow::openAboutPopup()
 {
     QMessageBox aboutBox;
     aboutBox.setWindowTitle("About this program");
-    aboutBox.setText("Aero Control Center");
+    aboutBox.setText("Aero Control Center " BUILD_VERSION);
     aboutBox.setIcon(QMessageBox::Information);
     aboutBox.exec();
 }
