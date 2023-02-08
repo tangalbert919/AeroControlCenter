@@ -1,0 +1,2 @@
+# Copy into /etc/udev/rules.d
+SUBSYSTEMS=="usb", ATTRS{idVendor}=="1044", ATTRS{idProduct}=="7a3f", MODE="0660", TAG+="uaccess"
