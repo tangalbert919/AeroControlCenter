@@ -2,7 +2,7 @@
 
 This is a Linux port of Gigabyte's Control Center for their Aero line of laptops.
 
-Currently, the program lacks functionality, and will be added as soon as possible.
+The program works best if you have my [kernel driver](https://github.com/tangalbert919/gigabyte-laptop-wmi) installed.
 
 ## Models tested
 - Aero 15 Classic (SA/WA/XA/YA)
