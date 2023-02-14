@@ -11,16 +11,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     QMessageLogger log;
-    // Detect if program is running on an Aero machine.
+    // Detect if program is running on an Aero or AORUS machine.
     // Otherwise, create a popup and exit.
     char temp[64];
     FILE *file = std::fopen("/sys/class/dmi/id/product_family", "r");
     std::fgets(temp, 64, file);
     std::fclose(file);
-    if (std::strcmp(temp, "AERO\n") != 0) {
+    if (std::strcmp(temp, "AERO\n") != 0 &&
+            std::strcmp(temp, "AORUS\n") != 0) {
         QMessageBox msgBox;
         msgBox.setWindowTitle("WARNING");
-        msgBox.setText("This program will only run on an Aero machine.");
+        msgBox.setText("This program will only run on an Aero or AORUS machine.");
         msgBox.setIcon(QMessageBox::Critical);
         msgBox.exec();
         parent->close();
