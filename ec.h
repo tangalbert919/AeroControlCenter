@@ -17,9 +17,10 @@ public slots:
     void checkEC();
 
 private:
-    QMessageLogger log;
+    QString hwmonDir;
     unsigned short fanRPM[2];
-    unsigned short read16(FILE* f, unsigned char offset);
+
+    void setFanMode(unsigned int mode);
 };
 
 #endif // EC_H

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "ec.h"
 #include "hwmonitor.h"
 
 #include <QMainWindow>
@@ -24,6 +25,7 @@ public slots:
     void updateGauge();
 
 private:
+    EC *ec;
     Ui::MainWindow *ui;
     HWMonitor *utils;
 

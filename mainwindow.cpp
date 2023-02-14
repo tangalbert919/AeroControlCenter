@@ -30,6 +30,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Setup hardware monitor.
     utils = new HWMonitor();
 
+    // Setup embedded controller.
+    ec = new EC();
+
     // Setup initial UI.
     ui->setupUi(this);
 
@@ -43,9 +46,9 @@ MainWindow::MainWindow(QWidget *parent)
     fileMenu->addAction(aboutAction);
     ui->menubar->addMenu(fileMenu);
 
-    // Setup fan RPM display (TODO: Actually get fan RPM)
-    ui->fan1RPM->display(1987);
-    ui->fan2RPM->display(2018);
+    // Setup fan RPM display.
+    ui->fan1RPM->display(0);
+    ui->fan2RPM->display(0);
 
     // Setup CPU, GPU, and memory views
     cpuScene = new QGraphicsScene(this);
@@ -154,6 +157,11 @@ void MainWindow::updateGauge()
             (double) utils->getMemoryTotal() / 1048576);
     memoryText->setPlainText(temp);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
+
+    // Update fan RPM display.
+    unsigned short *fanRPM = ec->getFanRPM();
+    ui->fan1RPM->display(fanRPM[0]);
+    ui->fan2RPM->display(fanRPM[1]);
 }
 
 void MainWindow::openAboutPopup()
