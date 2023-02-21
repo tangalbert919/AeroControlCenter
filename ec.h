@@ -17,7 +17,7 @@ public slots:
 
 private:
     QString hwmonDir;
-    QTimer *timer;
+    //QTimer *timer;
     unsigned short fanRPM[2];
 
     void setFanMode(unsigned int mode);

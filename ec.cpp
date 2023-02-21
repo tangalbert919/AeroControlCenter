@@ -16,21 +16,25 @@ EC::EC()
 
     if (dirs.size() > 0)
         hwmonDir = temp.append(dirs.at(0));
-    else
+    else {
         qInfo("Kernel driver not running, some controls will not work!");
+        // Set all fan RPM indices to 0.
+        fanRPM[0] = 0;
+        fanRPM[1] = 0;
+    }
 
     // Create the timer.
-    timer = new QTimer(this);
+    /*timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()),
             this, SLOT(checkEC()));
     // Check every two seconds.
-    timer->start(2000);
+    timer->start(2000);*/
 }
 
 EC::~EC()
 {
-    timer->stop();
-    delete timer;
+    //timer->stop();
+    //delete timer;
 }
 
 unsigned short *EC::getFanRPM()
@@ -64,7 +68,7 @@ unsigned short *EC::getFanRPM()
 
 void EC::checkEC()
 {
-    qInfo("Checking timer");
+    //qInfo("Checking timer");
 }
 
 void EC::setFanMode(unsigned int mode)
