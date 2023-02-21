@@ -40,6 +40,8 @@ private:
 
 private slots:
     void openAboutPopup();
+    void printSliderPosition();
+    void updateSliderPosition();
     void updateGauge();
 };
 #endif // MAINWINDOW_H

@@ -42,6 +42,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fan1RPM->display(0);
     ui->fan2RPM->display(0);
 
+    // Setup the fan speed slider. Only effective in custom mode.
+    ui->fanCustomSlider->setRange(25, 100);
+    ui->fanCustomSlider->setSingleStep(5);
+    ui->fanCustomSlider->setPageStep(10);
+    ui->fanCustomSlider->setTickInterval(5);
+    ui->fanCustomSlider->setTickPosition(QSlider::TicksBothSides);
+    connect(ui->fanCustomSlider, &QSlider::sliderReleased, this, &MainWindow::updateSliderPosition);
+    connect(ui->fanCustomSlider, &QSlider::valueChanged, this, &MainWindow::printSliderPosition);
+    // By default, hide them. We assume custom fan mode is disabled.
+    ui->fanCustomSlider->setVisible(false);
+    ui->fanCustomPercent->setVisible(false);
+
     // Setup CPU, GPU, and memory views and gauges.
     setupGauges();
 
@@ -143,6 +155,37 @@ void MainWindow::setupMenu()
     ui->menubar->addMenu(fileMenu);
 }
 
+// Add new slots below this comment.
+void MainWindow::openAboutPopup()
+{
+    QMessageBox aboutBox;
+    aboutBox.setWindowTitle("About this program");
+    aboutBox.setText("Aero Control Center " BUILD_VERSION);
+    aboutBox.setIcon(QMessageBox::Information);
+    aboutBox.exec();
+}
+
+void MainWindow::printSliderPosition()
+{
+    unsigned short speed;
+    char temp[6];
+    //qInfo("Slider position: %d", ui->fanCustomSlider->sliderPosition());
+    speed = ui->fanCustomSlider->sliderPosition();
+    std::sprintf(temp, "%d%%", speed);
+    ui->fanCustomPercent->setText(temp);
+}
+
+void MainWindow::updateSliderPosition()
+{
+    unsigned short speed = ui->fanCustomSlider->sliderPosition();
+    unsigned short remainder = speed % 5;
+    if (remainder != 0) {
+        speed = speed - remainder;
+        ui->fanCustomSlider->setValue(speed);
+    }
+    printSliderPosition();
+}
+
 void MainWindow::updateGauge()
 {
     // Because we are going clockwise, span angle must be negative.
@@ -176,13 +219,4 @@ void MainWindow::updateGauge()
     unsigned short *fanRPM = ec->getFanRPM();
     ui->fan1RPM->display(fanRPM[0]);
     ui->fan2RPM->display(fanRPM[1]);
-}
-
-void MainWindow::openAboutPopup()
-{
-    QMessageBox aboutBox;
-    aboutBox.setWindowTitle("About this program");
-    aboutBox.setText("Aero Control Center " BUILD_VERSION);
-    aboutBox.setIcon(QMessageBox::Information);
-    aboutBox.exec();
 }

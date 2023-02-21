@@ -233,7 +233,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>
@@ -302,6 +302,70 @@
     <hint type="destinationlabel">
      <x>135</x>
      <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanQuietBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>fanCustomPercent</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>495</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>255</x>
+     <y>531</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanNormalBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>fanCustomPercent</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>255</x>
+     <y>531</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanGamingBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>fanCustomPercent</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>179</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>255</x>
+     <y>531</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanCustomBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>fanCustomPercent</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>179</x>
+     <y>495</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>255</x>
+     <y>531</y>
     </hint>
    </hints>
   </connection>
