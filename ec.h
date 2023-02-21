@@ -9,7 +9,6 @@ class EC : public QObject
 public:
     EC();
     ~EC();
-    QTimer *timer;
 
     unsigned short *getFanRPM();
 
@@ -18,6 +17,7 @@ public slots:
 
 private:
     QString hwmonDir;
+    QTimer *timer;
     unsigned short fanRPM[2];
 
     void setFanMode(unsigned int mode);

@@ -19,13 +19,10 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    QTimer *timer;
-
-public slots:
-    void updateGauge();
 
 private:
     EC *ec;
+    QTimer *timer;
     Ui::MainWindow *ui;
     HWMonitor *utils;
 
@@ -40,5 +37,6 @@ private:
 
 private slots:
     void openAboutPopup();
+    void updateGauge();
 };
 #endif // MAINWINDOW_H
