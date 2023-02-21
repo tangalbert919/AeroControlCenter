@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    QMessageLogger log;
     // Detect if program is running on an Aero or AORUS machine.
     // Otherwise, create a popup and exit.
     char temp[64];
@@ -37,20 +36,58 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     // Setup the menus for the menubar.
-    // TODO: Move this to separate method.
-    fileMenu = new QMenu("File");
-    aboutAction = new QAction("About...");
-    aboutAction->setShortcut(QKeySequence::SelectAll);
-    aboutAction->setIcon(QIcon("document-open"));
-    connect(aboutAction, &QAction::triggered, this, &MainWindow::openAboutPopup);
-    fileMenu->addAction(aboutAction);
-    ui->menubar->addMenu(fileMenu);
+    setupMenu();
 
     // Setup fan RPM display.
     ui->fan1RPM->display(0);
     ui->fan2RPM->display(0);
 
-    // Setup CPU, GPU, and memory views
+    // Setup CPU, GPU, and memory views and gauges.
+    setupGauges();
+
+    // Get CPU info.
+    getCPUInfo();
+
+    // Start timer to refresh gauge
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()),
+            this, SLOT(updateGauge()));
+    timer->start(2000);
+}
+
+MainWindow::~MainWindow()
+{
+    timer->stop();
+    delete timer;
+
+    delete ui;
+}
+
+void MainWindow::getCPUInfo()
+{
+    QString cpuInfo = " Not obtained";
+    QFile qf("/proc/cpuinfo");
+    if (!qf.open(QIODevice::ReadOnly | QIODevice::Text))
+        qDebug("failed");
+    else {
+        QTextStream in(&qf);
+        QString line = in.readLine();
+        bool cpuInfoFound = false;
+        while (!line.isNull() && !cpuInfoFound) {
+            if (line.contains("model name")) {
+                cpuInfo = line.sliced(line.indexOf(":") + 1);
+                cpuInfoFound = true;
+            }
+            line = in.readLine();
+        }
+    }
+    ui->cpuLabel->setText("CPU:" + cpuInfo);
+    qf.close();
+}
+
+void MainWindow::setupGauges()
+{
+    // Setup the scene first.
     cpuScene = new QGraphicsScene(this);
     ui->cpuView->setScene(cpuScene);
     cpuScene->setSceneRect(QRectF(0,0,256,192));
@@ -64,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->memoryView->setScene(memoryScene);
     memoryScene->setSceneRect(QRectF(0,0,256,192));
 
-    // Setup CPU, GPU, and memory gauges.
+    // Setup the gauges.
     QPen pen(QColor(253,126,20), 3, Qt::SolidLine);
     cpuGauge = new QGraphicsEllipseItem(53,21,150,150);
     cpuGauge->setStartAngle(225 * 16);
@@ -93,40 +130,17 @@ MainWindow::MainWindow(QWidget *parent)
     memoryText = memoryScene->addText("Polling memory usage...");
     memoryText->setY(150);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
-
-    // Get CPU info (TODO: Move to new method)
-    QString cpuInfo = " Not obtained";
-    QFile qf("/proc/cpuinfo");
-    if (!qf.open(QIODevice::ReadOnly | QIODevice::Text))
-        qDebug("failed");
-    else {
-        QTextStream in(&qf);
-        QString line = in.readLine();
-        bool cpuInfoFound = false;
-        while (!line.isNull() && !cpuInfoFound) {
-            if (line.contains("model name")) {
-                cpuInfo = line.sliced(line.indexOf(":") + 1);
-                cpuInfoFound = true;
-            }
-            line = in.readLine();
-        }
-    }
-    ui->cpuLabel->setText("CPU:" + cpuInfo);
-    qf.close();
-
-    // Start timer to refresh gauge
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()),
-            this, SLOT(updateGauge()));
-    timer->start(2000);
 }
 
-MainWindow::~MainWindow()
+void MainWindow::setupMenu()
 {
-    timer->stop();
-    delete timer;
-
-    delete ui;
+    fileMenu = new QMenu("File");
+    aboutAction = new QAction("About...");
+    aboutAction->setShortcut(QKeySequence::SelectAll);
+    aboutAction->setIcon(QIcon("document-open"));
+    connect(aboutAction, &QAction::triggered, this, &MainWindow::openAboutPopup);
+    fileMenu->addAction(aboutAction);
+    ui->menubar->addMenu(fileMenu);
 }
 
 void MainWindow::updateGauge()

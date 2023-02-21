@@ -34,6 +34,9 @@ private:
     // Menu bar
     QMenu *fileMenu;
     QAction *aboutAction;
+    void getCPUInfo();
+    void setupGauges();
+    void setupMenu();
 
 private slots:
     void openAboutPopup();
