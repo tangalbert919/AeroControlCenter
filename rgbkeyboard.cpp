@@ -1,69 +1,39 @@
 #include "rgbkeyboard.h"
 
-#include <cwchar>
-#include <hidapi/hidapi.h>
-#include <QDebug>
-
-#define MAX_STR 255
-
 RGBKeyboard::RGBKeyboard()
 {
     int res;
-    unsigned char buf[65];
-    wchar_t wstr[MAX_STR];
+    libusb_device **list;
+    libusb_device *found = NULL;
+    struct libusb_device_descriptor desc = {0};
+    ssize_t cnt = 0;
 
-    // Initialize hidapi (not strictly necessary unless we are using multiple threads)
-    res = hid_init();
-
-    // The keyboards in Gigabyte's laptops come from multiple vendors, so we need to find them.
-    // Start with Chu Yuen Enterprise Co., Ltd.
-    info = hid_enumerate(0x1044, 0);
-    res = registerKeyboard(info);
-    if (!res) {
-        keyboardAttached = true;
-        goto end_probe;
+    res = libusb_init(NULL);
+    if (res) {
+        qInfo("Could not initialize libusb!");
     }
-    // Holtek Semiconductor, Inc.
-    info = hid_enumerate(0x04d9, 0);
-    res = registerKeyboard(info);
-    if (!res) {
-        keyboardAttached = true;
-        goto end_probe;
-    }
-    // All new keyboard vendors should go here.
 
-end_probe:
-    // Keyboard found or not supported
-    if (info)
-        hid_free_enumeration(info);
+done:
+    qInfo("RGB keyboard init finished");
 }
 
 RGBKeyboard::~RGBKeyboard()
 {
-    if (info)
-        hid_free_enumeration(info);
-    hid_close(handle);
-    hid_exit();
+    // TODO: Reimplement with libusb
+    if (keyboardAttached) {
+        libusb_close(handle);
+        libusb_exit(NULL);
+    }
 }
 
-int RGBKeyboard::registerKeyboard(struct hid_device_info *info)
+int RGBKeyboard::registerKeyboard()
 {
-    if (info) {
-        // Make sure the device manufacturer is Gigabyte and the device is a keyboard.
-        if (std::wcscmp(info->manufacturer_string, L"GIGABYTE\n") &&
-                std::wcscmp(info->product_string, L"USB-HID Keyboard\n")) {
-            handle = hid_open(info->vendor_id, info->product_id, info->serial_number);
-            if (!handle) {
-                // Failed to open device.
-                hid_free_enumeration(info);
-                hid_exit();
-                return -1;
-            }
-        }
-    }
-    else {
-        qInfo("Unsupported keyboard or wrong vendor");
-        return -1;
-    }
+    // TODO: Reimplement with libusb
+    return 0;
+}
+
+int RGBKeyboard::getFeatureReport()
+{
+    // TODO: Implement
     return 0;
 }

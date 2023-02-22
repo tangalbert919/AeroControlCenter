@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include <hidapi/hidapi.h>
+#include <libusb-1.0/libusb.h>
 
 class RGBKeyboard : public QObject
 {
@@ -13,11 +13,11 @@ public:
     ~RGBKeyboard();
 
 private:
-    hid_device *handle;
-    struct hid_device_info *info;
+    libusb_device_handle *handle;
     bool keyboardAttached = false;
 
-    int registerKeyboard(struct hid_device_info *info);
+    int registerKeyboard();
+    int getFeatureReport();
 };
 
 #endif // RGBKEYBOARD_H

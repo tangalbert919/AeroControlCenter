@@ -54,7 +54,7 @@ endif()
 
 target_link_libraries(AeroControlCenter PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
-    -lhidapi-hidraw)
+    -lusb-1.0)
 
 set_target_properties(AeroControlCenter PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
