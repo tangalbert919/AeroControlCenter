@@ -23,6 +23,18 @@ EC::EC()
         fanRPM[1] = 0;
     }
 
+    // Get the fan mode.
+    QFile qf("/sys/devices/platform/gigabyte_laptop/fan_mode");
+    if (!qf.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        fanMode = 0;
+        adjustableFanMode = false;
+    } else {
+        QTextStream stream(&qf);
+        fanMode = stream.readLine().toInt();
+        adjustableFanMode = true;
+    }
+    qf.close();
+
     // Create the timer.
     /*timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()),
@@ -66,13 +78,22 @@ unsigned short *EC::getFanRPM()
     return fanRPM;
 }
 
+unsigned short EC::getFanMode()
+{
+    return fanMode;
+}
+
 void EC::checkEC()
 {
     //qInfo("Checking timer");
 }
 
-void EC::setFanMode(unsigned int mode)
+int EC::setFanMode(unsigned short mode)
 {
+    // Don't adjust if our kernel driver is not running.
+    if (!adjustableFanMode)
+        return -1;
+
     // TODO: Figure out polkit. This only works if running as root!
     char buf[2];
     QFile qf("/sys/devices/platform/gigabyte_laptop/fan_mode");
@@ -81,4 +102,6 @@ void EC::setFanMode(unsigned int mode)
     std::sprintf(buf, "%d", mode);
     qf.write(buf);
     qf.close();
+    fanMode = mode;
+    return 0;
 }

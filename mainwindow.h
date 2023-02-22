@@ -43,5 +43,6 @@ private slots:
     void printSliderPosition();
     void updateSliderPosition();
     void updateGauge();
+    void updateFanMode(unsigned short mode);
 };
 #endif // MAINWINDOW_H

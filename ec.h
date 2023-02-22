@@ -11,16 +11,17 @@ public:
     ~EC();
 
     unsigned short *getFanRPM();
+    unsigned short getFanMode();
+    int setFanMode(unsigned short mode);
 
 public slots:
     void checkEC();
 
 private:
+    bool adjustableFanMode;
     QString hwmonDir;
     //QTimer *timer;
-    unsigned short fanRPM[2];
-
-    void setFanMode(unsigned int mode);
+    unsigned short fanRPM[2], customFanSpeed, fanMode;
 };
 
 #endif // EC_H

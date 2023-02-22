@@ -54,6 +54,16 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fanCustomSlider->setVisible(false);
     ui->fanCustomPercent->setVisible(false);
 
+    // Hook up fan mode buttons.
+    connect(ui->fanNormalBtn, &QPushButton::clicked, this,
+            [=]() { this->updateFanMode(0); });
+    connect(ui->fanQuietBtn, &QPushButton::clicked, this,
+            [=]() { this->updateFanMode(1); });
+    connect(ui->fanGamingBtn, &QPushButton::clicked, this,
+            [=]() { this->updateFanMode(2); });
+    connect(ui->fanCustomBtn, &QPushButton::clicked, this,
+            [=]() { this->updateFanMode(3); });
+
     // Setup CPU, GPU, and memory views and gauges.
     setupGauges();
 
@@ -219,4 +229,24 @@ void MainWindow::updateGauge()
     unsigned short *fanRPM = ec->getFanRPM();
     ui->fan1RPM->display(fanRPM[0]);
     ui->fan2RPM->display(fanRPM[1]);
+}
+
+void MainWindow::updateFanMode(unsigned short mode)
+{
+    if (ec->getFanMode() == mode)
+        return;
+
+    QString temp("Fan Modes (current: ");
+    if (ec->setFanMode(mode) == 0) {
+        if (mode == 0)
+            temp.append("Normal)");
+        else if (mode == 1)
+            temp.append("Quiet)");
+        else if (mode == 2)
+            temp.append("Gaming)");
+        else if (mode == 3)
+            temp.append("Custom)");
+    } else
+        temp.append("DISABLED)");
+    ui->fanModeLabel->setText(temp);
 }
