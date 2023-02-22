@@ -50,6 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fanCustomSlider->setTickPosition(QSlider::TicksBothSides);
     connect(ui->fanCustomSlider, &QSlider::sliderReleased, this, &MainWindow::updateSliderPosition);
     connect(ui->fanCustomSlider, &QSlider::valueChanged, this, &MainWindow::printSliderPosition);
+    ui->fanCustomSlider->setValue(ec->getCustomFanSpeed());
+    ui->fanCustomPercent->setText(QString::number(ec->getCustomFanSpeed()) + "%");
     // By default, hide them. We assume custom fan mode is disabled.
     ui->fanCustomSlider->setVisible(false);
     ui->fanCustomPercent->setVisible(false);
@@ -67,6 +69,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Hook up fan speed button.
     connect(ui->setFanSpeedBtn, &QPushButton::clicked, this,
             [=]() { this->updateCustomFanSpeed(ui->fanCustomSlider->value()); });
+    // Make sure it's invisible at the start.
+    ui->setFanSpeedBtn->setVisible(false);
 
     // Setup CPU, GPU, and memory views and gauges.
     setupGauges();
