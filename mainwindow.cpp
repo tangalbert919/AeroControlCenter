@@ -64,6 +64,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->fanCustomBtn, &QPushButton::clicked, this,
             [=]() { this->updateFanMode(3); });
 
+    // Hook up fan speed button.
+    connect(ui->setFanSpeedBtn, &QPushButton::clicked, this,
+            [=]() { this->updateCustomFanSpeed(ui->fanCustomSlider->value()); });
+
     // Setup CPU, GPU, and memory views and gauges.
     setupGauges();
 
@@ -249,4 +253,12 @@ void MainWindow::updateFanMode(unsigned short mode)
     } else
         temp.append("DISABLED)");
     ui->fanModeLabel->setText(temp);
+}
+
+void MainWindow::updateCustomFanSpeed(unsigned short speed)
+{
+    if (ec->getCustomFanSpeed() == speed)
+        return;
+
+    ec->setCustomFanSpeed(speed);
 }

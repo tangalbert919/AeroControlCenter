@@ -144,7 +144,7 @@
      <rect>
       <x>50</x>
       <y>390</y>
-      <width>171</width>
+      <width>211</width>
       <height>17</height>
      </rect>
     </property>
@@ -224,6 +224,19 @@
     </property>
     <property name="text">
      <string>CPU: </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="setFanSpeedBtn">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>490</y>
+      <width>80</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Set</string>
     </property>
    </widget>
   </widget>
@@ -366,6 +379,70 @@
     <hint type="destinationlabel">
      <x>255</x>
      <y>531</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanQuietBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>setFanSpeedBtn</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>495</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>525</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanNormalBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>setFanSpeedBtn</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>525</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanGamingBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>setFanSpeedBtn</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>179</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>525</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fanCustomBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>setFanSpeedBtn</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>179</x>
+     <y>495</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>525</y>
     </hint>
    </hints>
   </connection>

@@ -44,5 +44,6 @@ private slots:
     void updateSliderPosition();
     void updateGauge();
     void updateFanMode(unsigned short mode);
+    void updateCustomFanSpeed(unsigned short speed);
 };
 #endif // MAINWINDOW_H

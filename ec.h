@@ -12,7 +12,9 @@ public:
 
     unsigned short *getFanRPM();
     unsigned short getFanMode();
+    unsigned short getCustomFanSpeed();
     int setFanMode(unsigned short mode);
+    void setCustomFanSpeed(unsigned short speed);
 
 public slots:
     void checkEC();
