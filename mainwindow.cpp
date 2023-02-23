@@ -5,6 +5,7 @@
 #include <cstring>
 #include <QMessageBox>
 #include <QFile>
+#include <QTabBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,6 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Setup the menus for the menubar.
     setupMenu();
+
+    // Configure tab bar. Make sure tabs span the application width.
+    ui->tabWidget->tabBar()->setDocumentMode(true);
+    ui->tabWidget->tabBar()->setExpanding(true);
 
     // Setup fan RPM display.
     ui->fan1RPM->display(0);
