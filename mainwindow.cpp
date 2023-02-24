@@ -48,11 +48,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fan2RPM->display(0);
 
     // Setup the fan speed slider. Only effective in custom mode.
-    ui->fanCustomSlider->setRange(25, 100);
-    ui->fanCustomSlider->setSingleStep(5);
-    ui->fanCustomSlider->setPageStep(10);
-    ui->fanCustomSlider->setTickInterval(5);
-    ui->fanCustomSlider->setTickPosition(QSlider::TicksBothSides);
     connect(ui->fanCustomSlider, &QSlider::sliderReleased, this, &MainWindow::updateSliderPosition);
     connect(ui->fanCustomSlider, &QSlider::valueChanged, this, &MainWindow::printSliderPosition);
     ui->fanCustomSlider->setValue(ec->getCustomFanSpeed());

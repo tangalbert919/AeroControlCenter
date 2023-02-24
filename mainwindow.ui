@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="mainTab">
      <attribute name="title">
@@ -152,8 +152,23 @@
         <height>26</height>
        </rect>
       </property>
+      <property name="minimum">
+       <number>25</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="singleStep">
+       <number>5</number>
+      </property>
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+      <property name="tickInterval">
+       <number>5</number>
       </property>
      </widget>
      <widget class="QLabel" name="fanCustomPercent">
@@ -260,17 +275,170 @@
      <attribute name="title">
       <string>RGB Fusion</string>
      </attribute>
-     <widget class="QLabel" name="label">
+     <widget class="QComboBox" name="rgbModes">
       <property name="geometry">
        <rect>
-        <x>360</x>
-        <y>230</y>
-        <width>81</width>
-        <height>18</height>
+        <x>10</x>
+        <y>440</y>
+        <width>72</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Static</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Breathing</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Wave</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Fade on Keypress</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Marquee</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Flash on Keypress</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Neon</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rainbow Marquee</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Raindrop</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Circle Marquee</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Hedge</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rotate</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom 1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom 2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom 3</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom 4</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Custom 5</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QCheckBox" name="rgbEnabled">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>440</y>
+        <width>84</width>
+        <height>24</height>
        </rect>
       </property>
       <property name="text">
-       <string>Coming soon</string>
+       <string>Enabled</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="rgbRandom">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>470</y>
+        <width>84</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Random</string>
+      </property>
+     </widget>
+     <widget class="QSlider" name="rgbBrightnessSlider">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>440</y>
+        <width>71</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="maximum">
+       <number>2</number>
+      </property>
+      <property name="pageStep">
+       <number>2</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+     <widget class="QLabel" name="rgbBrightnessLabel">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>440</y>
+        <width>71</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Brightness</string>
+      </property>
+     </widget>
+     <widget class="QGraphicsView" name="rgbPreview">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>751</width>
+        <height>421</height>
+       </rect>
       </property>
      </widget>
     </widget>
