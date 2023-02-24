@@ -47,14 +47,26 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fan1RPM->display(0);
     ui->fan2RPM->display(0);
 
-    // Setup the fan speed slider. Only effective in custom mode.
+    // Setup the fan speed controls. Only effective in custom mode.
     connect(ui->fanCustomSlider, &QSlider::sliderReleased, this, &MainWindow::updateSliderPosition);
     connect(ui->fanCustomSlider, &QSlider::valueChanged, this, &MainWindow::printSliderPosition);
-    ui->fanCustomSlider->setValue(ec->getCustomFanSpeed());
-    ui->fanCustomPercent->setText(QString::number(ec->getCustomFanSpeed()) + "%");
-    // By default, hide them. We assume custom fan mode is disabled.
-    ui->fanCustomSlider->setVisible(false);
-    ui->fanCustomPercent->setVisible(false);
+    connect(ui->setFanSpeedBtn, &QPushButton::clicked, this,
+            [=]() { this->updateCustomFanSpeed(ui->fanCustomSlider->value()); });
+
+    // Disable controls if kernel driver is not running.
+    if (ec->getCustomFanSpeed() == 0) {
+        ui->fanCustomSlider->setDisabled(true);
+        ui->setFanSpeedBtn->setDisabled(true);
+    } else {
+        ui->fanCustomSlider->setValue(ec->getCustomFanSpeed());
+        ui->fanCustomPercent->setText(QString::number(ec->getCustomFanSpeed()) + "%");
+    }
+    // Hide them if we are not on custom mode or kernel driver is not running.
+    if (ec->getFanMode() < 3) {
+        ui->fanCustomSlider->setVisible(false);
+        ui->fanCustomPercent->setVisible(false);
+        ui->setFanSpeedBtn->setVisible(false);
+    }
 
     // Hook up fan mode buttons.
     connect(ui->fanNormalBtn, &QPushButton::clicked, this,
@@ -65,12 +77,6 @@ MainWindow::MainWindow(QWidget *parent)
             [=]() { this->updateFanMode(2); });
     connect(ui->fanCustomBtn, &QPushButton::clicked, this,
             [=]() { this->updateFanMode(3); });
-
-    // Hook up fan speed button.
-    connect(ui->setFanSpeedBtn, &QPushButton::clicked, this,
-            [=]() { this->updateCustomFanSpeed(ui->fanCustomSlider->value()); });
-    // Make sure it's invisible at the start.
-    ui->setFanSpeedBtn->setVisible(false);
 
     // Setup CPU, GPU, and memory views and gauges.
     setupGauges();
