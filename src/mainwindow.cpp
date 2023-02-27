@@ -33,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Setup embedded controller.
     ec = new EC();
 
+    // Setup RGB keyboard.
+    rgb = new RGBKeyboard();
+
     // Setup initial UI.
     ui->setupUi(this);
 
@@ -97,6 +100,8 @@ MainWindow::~MainWindow()
     delete timer;
 
     delete ui;
+    delete utils;
+    delete rgb;
 }
 
 void MainWindow::getCPUInfo()

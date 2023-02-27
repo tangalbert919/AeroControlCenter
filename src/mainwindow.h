@@ -3,6 +3,7 @@
 
 #include "ec.h"
 #include "hwmonitor.h"
+#include "rgbkeyboard.h"
 
 #include <QMainWindow>
 #include <QGraphicsEllipseItem>
@@ -25,6 +26,7 @@ private:
     QTimer *timer;
     Ui::MainWindow *ui;
     HWMonitor *utils;
+    RGBKeyboard *rgb;
 
     // Hardware statistics
     QGraphicsEllipseItem *cpuGauge, *gpuGauge, *memoryGauge;
