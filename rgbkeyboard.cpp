@@ -1,5 +1,7 @@
 #include "rgbkeyboard.h"
 
+#include "data.h"
+
 RGBKeyboard::RGBKeyboard()
 {
     int res;
