@@ -17,17 +17,17 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        data.h
-        ec.cpp
-        ec.h
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        rgbkeyboard.cpp
-        rgbkeyboard.h
-        hwmonitor.cpp
-        hwmonitor.h
-        mainwindow.ui
+        src/data.h
+        src/ec.cpp
+        src/ec.h
+        src/main.cpp
+        src/mainwindow.cpp
+        src/mainwindow.h
+        src/rgbkeyboard.cpp
+        src/rgbkeyboard.h
+        src/hwmonitor.cpp
+        src/hwmonitor.h
+        src/mainwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
