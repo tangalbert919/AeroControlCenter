@@ -51,4 +51,8 @@ enum color {
     RANDOM = 0x08
 };
 
+enum vendors {
+    CHU_YUEN = 0x1044
+};
+
 #endif // DATA_H

@@ -14,7 +14,7 @@ public:
 
 private:
     libusb_device_handle *handle;
-    bool keyboardAttached = false;
+    bool keyboardAttached = false, interfaceClaimed = false;
 
     int registerKeyboard();
     int getFeatureReport();
