@@ -4,15 +4,21 @@ This is a Linux port of Gigabyte's Control Center for their Aero line of laptops
 
 The program works best if you have my [kernel driver](https://github.com/tangalbert919/gigabyte-laptop-wmi) installed.
 
-## Models tested
+## Supported models
+
+Tested:
 - Aero 15 Classic (SA/WA/XA/YA)
+
+Untested:
+- Other Aero models
+- AORUS laptops
 
 ## Contributing
 This program uses Qt. If you wish to contribute, Qt Creator is the recommended IDE to use.
 
 The following libraries are required:
 * Qt (version 6 is recommended)
-* hidapi (for RGB keyboard support)
+* libusb (for RGB keyboard support)
 * CMake (to build the program)
 
 Make sure you have development tools installed (compilers, library headers,
@@ -39,14 +45,17 @@ To run the program, just run:
 
 ## TODO
 - [ ] Complete UI work
-- [ ] Add documentation to the code
-- [ ] Obtain fan speeds and switch fan modes manually
+- [x] Add documentation to the code
+- [x] Obtain fan speeds and switch fan modes manually
 - [ ] Dynamically switch fan modes based on current process
 - [ ] Detect what Aero model this program is running on
 - [ ] Obtain Gigabyte's XML files used for their Control Center
 - [ ] Test on more models
 - [ ] Add keyboard RGB functionality
-- [ ] Add UI for keyboard RGB
-- [ ] Add support for AORUS models (maybe)
+- [x] Add UI for keyboard RGB
+- [x] Add support for AORUS models (maybe)
 - [ ] Add support for Gigabyte Gaming models (maybe)
 - [ ] Port this program to Windows (maybe)
+
+## Interesting projects
+- [fusion-kbd-controller](https://github.com/martin31821/fusion-kbd-controller) (only supports Aero 15X)
