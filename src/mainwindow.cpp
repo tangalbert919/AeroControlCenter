@@ -2,7 +2,6 @@
 #include "./ui_mainwindow.h"
 
 #include <cmath>
-#include <cstring>
 #include <QMessageBox>
 #include <QFile>
 #include <QTabBar>
@@ -13,18 +12,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     // Detect if program is running on an Aero or AORUS machine.
     // Otherwise, create a popup and exit.
-    char temp[64];
-    FILE *file = std::fopen("/sys/class/dmi/id/product_family", "r");
-    std::fgets(temp, 64, file);
-    std::fclose(file);
-    if (std::strcmp(temp, "AERO\n") != 0 &&
-            std::strcmp(temp, "AORUS\n") != 0) {
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("WARNING");
-        msgBox.setText("This program will only run on an Aero or AORUS machine.");
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
-        parent->close();
+    QFile dmi("/sys/class/dmi/id/product_family"); // This should NOT fail.
+    if (dmi.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream stream(&dmi);
+        QString model(stream.readAll());
+        dmi.close();
+        if (model != "AERO\n" && model != "AORUS\n") {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("WARNING");
+            msgBox.setText("This program will only run on an Aero or AORUS machine.");
+            msgBox.setIcon(QMessageBox::Critical);
+            msgBox.exec();
+            parent->close();
+        }
     }
 
     // Setup hardware monitor.
@@ -197,11 +197,8 @@ void MainWindow::openAboutPopup()
 void MainWindow::printSliderPosition()
 {
     unsigned short speed;
-    char temp[6];
-    //qInfo("Slider position: %d", ui->fanCustomSlider->sliderPosition());
     speed = ui->fanCustomSlider->sliderPosition();
-    std::sprintf(temp, "%d%%", speed);
-    ui->fanCustomPercent->setText(temp);
+    ui->fanCustomPercent->setText(QString::number(speed) + "%");
 }
 
 void MainWindow::updateSliderPosition()
@@ -229,19 +226,19 @@ void MainWindow::updateGauge()
     memoryGauge->setSpanAngle((int) std::round(memorySpanAngle) * 16);
 
     // Update and realign text for the gauges.
-    char temp[48];
-    std::sprintf(temp, "CPU: %0.1f%%", cpuUse * 100);
-    cpuText->setPlainText(temp);
+    QString qCpu("CPU: %1%");
+    qCpu = qCpu.arg(cpuUse * 100, 0, 'f', 1);
+    cpuText->setPlainText(qCpu);
     cpuText->setX(127 - (cpuText->boundingRect().width() / 2));
-    /*std::sprintf(temp, "GPU: %0.1f%%", gpuUse * 100);
-    gpuText->setPlainText(temp);
+    /*QString qGpu("GPU: %1%");
+    qGpu = qGpu.arg(gpuUse * 100, 0, 'f', 1);
     gpuText->setX(127 - (gpuText->boundingRect().width() / 2));*/
-    std::sprintf(temp, "Memory: %0.1f%% (%0.2f GB/%0.2f GB)",
-            memoryUse * 100,
+    QString qMem("Memory: %1% (%2 GB/%3 GB)");
+    qMem = qMem.arg(memoryUse * 100, 0, 'f', 1)
             // Convert from kilobytes to gigabytes.
-            (double) utils->getMemoryUsageBytes() / 1048576,
-            (double) utils->getMemoryTotal() / 1048576);
-    memoryText->setPlainText(temp);
+            .arg((double) utils->getMemoryUsageBytes() / 1048576, 0, 'f', 2)
+            .arg((double) utils->getMemoryTotal() / 1048576, 0, 'f', 2);
+    memoryText->setPlainText(qMem);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
 
     // Update fan RPM display.
