@@ -51,9 +51,9 @@ To run the program, just run:
 - [ ] Detect what Aero model this program is running on
 - [ ] Obtain Gigabyte's XML files used for their Control Center
 - [ ] Test on more models
-- [ ] Add keyboard RGB functionality
+- [x] Add keyboard RGB functionality
 - [x] Add UI for keyboard RGB
-- [x] Add support for AORUS models (maybe)
+- [x] Add support for AORUS models
 - [ ] Add support for Gigabyte Gaming models (maybe)
 - [ ] Port this program to Windows (maybe)
 

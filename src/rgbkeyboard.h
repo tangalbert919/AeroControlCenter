@@ -12,6 +12,9 @@ public:
     RGBKeyboard();
     ~RGBKeyboard();
 
+public slots:
+    void setKeyboardRGB(int mode, int speed, int brightness, int color);
+
 private:
     libusb_device_handle *handle;
     bool keyboardAttached = false, interfaceClaimed = false;
