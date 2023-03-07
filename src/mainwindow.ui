@@ -311,6 +311,11 @@
       </item>
       <item>
        <property name="text">
+        <string>Ripple</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
         <string>Flash on Keypress</string>
        </property>
       </item>
@@ -537,6 +542,51 @@
       <property name="text">
        <string>Set</string>
       </property>
+     </widget>
+     <widget class="QComboBox" name="rgbColors">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>470</y>
+        <width>141</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Red</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Green</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Yellow</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Blue</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Orange</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Purple</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>White</string>
+       </property>
+      </item>
      </widget>
     </widget>
    </widget>
