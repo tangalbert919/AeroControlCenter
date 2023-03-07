@@ -13,6 +13,11 @@ Untested:
 - Other Aero models
 - AORUS laptops
 
+## Installation
+For RGB to work, you must copy `70-keyboard.rules` to `/etc/udev/rules.d`.
+
+Full installation instructions are currently not available yet.
+
 ## Contributing
 This program uses Qt. If you wish to contribute, Qt Creator is the recommended IDE to use.
 
