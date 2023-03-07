@@ -3,6 +3,7 @@
 
 #include "ec.h"
 #include "hwmonitor.h"
+#include "rgbgraphicsview.h"
 #include "rgbkeyboard.h"
 
 #include <QMainWindow>
@@ -36,9 +37,15 @@ private:
     // Menu bar
     QMenu *fileMenu;
     QAction *aboutAction;
+
+    // RGB UI
+    QGraphicsScene *rgbScene;
+    RGBGraphicsView *rgbView;
+
     void getCPUInfo();
     void setupGauges();
     void setupMenu();
+    void setupRGB();
 
 private slots:
     void openAboutPopup();

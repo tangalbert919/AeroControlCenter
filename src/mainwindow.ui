@@ -436,16 +436,6 @@
        <string>Brightness</string>
       </property>
      </widget>
-     <widget class="QGraphicsView" name="rgbPreview">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>751</width>
-        <height>421</height>
-       </rect>
-      </property>
-     </widget>
      <widget class="QSlider" name="rgbSpeedSlider">
       <property name="geometry">
        <rect>

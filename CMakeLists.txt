@@ -23,6 +23,8 @@ set(PROJECT_SOURCES
         src/main.cpp
         src/mainwindow.cpp
         src/mainwindow.h
+        src/rgbgraphicsview.h
+        src/rgbgraphicsview.cpp
         src/rgbkeyboard.cpp
         src/rgbkeyboard.h
         src/hwmonitor.cpp

@@ -42,6 +42,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Setup the menus for the menubar.
     setupMenu();
 
+    // Set UI to first tab. Useful when we are doing UI changes and forget to set currentIndex to 0.
+    ui->tabWidget->setCurrentIndex(0);
+
     // Configure tab bar. Make sure tabs span the application width.
     ui->tabWidget->tabBar()->setDocumentMode(true);
     ui->tabWidget->tabBar()->setExpanding(true);
@@ -82,15 +85,7 @@ MainWindow::MainWindow(QWidget *parent)
             [=]() { this->updateFanMode(3); });
 
     // Setup RGB controls.
-    // TODO: Move to separate method.
-    connect(ui->rgbSetBtn, &QPushButton::clicked, rgb, [=]() {
-        // TODO: Implement
-        int mode = ui->rgbModes->currentIndex();
-        int speed = ui->rgbSpeedSlider->value();
-        int brightness = ui->rgbBrightnessSlider->value();
-        int color = ui->rgbColors->currentIndex();
-        rgb->setKeyboardRGB(mode, speed, brightness, color);
-    });
+    setupRGB();
 
     // Setup CPU, GPU, and memory views and gauges.
     setupGauges();
@@ -193,6 +188,25 @@ void MainWindow::setupMenu()
     connect(aboutAction, &QAction::triggered, this, &MainWindow::openAboutPopup);
     fileMenu->addAction(aboutAction);
     ui->menubar->addMenu(fileMenu);
+}
+
+void MainWindow::setupRGB()
+{
+    connect(ui->rgbSetBtn, &QPushButton::clicked, rgb, [=]() {
+        // TODO: Implement
+        int mode = ui->rgbModes->currentIndex();
+        int speed = ui->rgbSpeedSlider->value();
+        int brightness = ui->rgbBrightnessSlider->value();
+        int color = ui->rgbColors->currentIndex();
+        rgb->setKeyboardRGB(mode, speed, brightness, color);
+    });
+
+    rgbView = new RGBGraphicsView(ui->rgbTab);
+    rgbView->setFixedSize(780,422);
+    rgbView->move(0,10);
+    rgbScene = new QGraphicsScene(this);
+    rgbView->setScene(rgbScene);
+    rgbScene->setSceneRect(0,0,750,420);
 }
 
 // Add new slots below this comment.
