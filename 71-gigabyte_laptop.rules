@@ -1,0 +1,2 @@
+# Copy into /etc/udev/rules.d
+SUBSYSTEM=="platform", DRIVER=="gigabyte_laptop", MODE="0660", TAG+="uaccess"
