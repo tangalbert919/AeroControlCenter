@@ -19,6 +19,7 @@ private:
     libusb_device_handle *handle;
     bool keyboardAttached = false, interfaceClaimed = false;
 
+    void setCustomMode(int mode, int brightness);
     int registerKeyboard();
     int getFeatureReport();
 };

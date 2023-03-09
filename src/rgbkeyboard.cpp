@@ -84,10 +84,57 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color)
 
     packet.instruction = RGB_MODE;
     packet.reserved = 0x00;
-    packet.mode = mode + 1;
+    if (mode <= 12)
+        packet.mode = mode + 1;
+    else
+        packet.mode = mode + 38;
     packet.speed = speed;
     packet.brightness = brightness * 25;
     packet.color = color + 1;
+    packet.offset = 0x01; // does nothing
+    for (int i = 0; i < 7; i++)
+        chksum += data[i];
+    packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
+
+    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0)
+        qWarning("Failed to set RGB");
+
+    if (mode > 12)
+        setCustomMode(mode, brightness);
+}
+
+void RGBKeyboard::setCustomMode(int mode, int brightness)
+{
+    packet packet;
+    uint16_t chksum = 0;
+    uint8_t *data = (uint8_t*) &packet;
+    int res;
+
+    packet.instruction = RGB_PROGRAM;
+    packet.reserved = 0x00;
+    packet.mode = mode - 13; // Custom Profile index is zero-based
+    packet.speed = 0x00;
+    packet.brightness = 0x00;
+    packet.color = 0x00;
+    packet.offset = 0x00; // does nothing
+    for (int i = 0; i < 7; i++)
+        chksum += data[i];
+    packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
+
+    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0)
+        qWarning("Failed to enter programming mode");
+
+    // TODO: Implement pushing data to endpoint 5
+    for (uint8_t i = 0; i < 8; i++) {
+        int transferred = 0;
+    }
+
+    // Select custom profile again
+    packet.instruction = RGB_MODE;
+    packet.mode = mode + 38;
+    packet.brightness = brightness * 25;
     packet.offset = 0x01; // does nothing
     for (int i = 0; i < 7; i++)
         chksum += data[i];
