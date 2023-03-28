@@ -9,7 +9,6 @@ EC::EC()
 {
     // Check if our kernel driver is running. Easiest way is to find its directory.
     QDir kernelDir("/sys/devices/platform/gigabyte_laptop");
-    qInfo("%s", kernelDir.absolutePath().toStdString().c_str());
     if (!kernelDir.exists()) {
         qInfo("Kernel driver not running, some controls will not work!");
         adjustableFanMode = false;
@@ -26,7 +25,7 @@ EC::EC()
         QStringList dirs = dir.entryList(filters);
 
         if (dirs.size() > 0)
-            hwmonDir = dir.currentPath() + dirs.at(0);
+            hwmonDir = dir.absolutePath() + "/" + dirs.at(0);
         else {
             // Set all fan RPM indices to 0.
             fanRPM[0] = 0;
