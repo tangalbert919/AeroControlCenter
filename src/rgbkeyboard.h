@@ -13,7 +13,7 @@ public:
     ~RGBKeyboard();
 
 public slots:
-    void setKeyboardRGB(int mode, int speed, int brightness, int color);
+    void setKeyboardRGB(int mode, int speed, int brightness, int color, int random);
 
 private:
     libusb_device_handle *handle;

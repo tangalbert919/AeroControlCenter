@@ -75,7 +75,7 @@ RGBKeyboard::~RGBKeyboard()
     libusb_exit(NULL);
 }
 
-void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color)
+void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color, int random)
 {
     packet packet;
     uint16_t chksum = 0;
@@ -88,9 +88,12 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color)
         packet.mode = mode + 1;
     else
         packet.mode = mode + 38;
-    packet.speed = speed;
+    packet.speed = 11 - speed; // reverse, slowest is 0x0A
     packet.brightness = brightness * 25;
-    packet.color = color + 1;
+    if (random)
+        packet.color = RANDOM;
+    else
+        packet.color = color + 1;
     packet.offset = 0x01; // does nothing
     for (int i = 0; i < 7; i++)
         chksum += data[i];

@@ -193,12 +193,12 @@ void MainWindow::setupMenu()
 void MainWindow::setupRGB()
 {
     connect(ui->rgbSetBtn, &QPushButton::clicked, rgb, [=]() {
-        // TODO: Implement
         int mode = ui->rgbModes->currentIndex();
         int speed = ui->rgbSpeedSlider->value();
         int brightness = ui->rgbBrightnessSlider->value();
         int color = ui->rgbColors->currentIndex();
-        rgb->setKeyboardRGB(mode, speed, brightness, color);
+        int random = ui->rgbRandom->isChecked();
+        rgb->setKeyboardRGB(mode, speed, brightness, color, random);
     });
 
     rgbView = new RGBGraphicsView(ui->rgbTab);
