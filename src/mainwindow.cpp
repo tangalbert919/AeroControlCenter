@@ -206,7 +206,8 @@ void MainWindow::setupRGB()
     rgbView->move(0,10);
     rgbScene = new QGraphicsScene(this);
     rgbView->setScene(rgbScene);
-    rgbScene->setSceneRect(0,0,750,420);
+    rgbScene->setSceneRect(0,0,760,420);
+    rgbView->setupLayout();
 }
 
 // Add new slots below this comment.

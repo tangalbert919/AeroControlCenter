@@ -9,6 +9,12 @@ class RGBGraphicsView : public QGraphicsView
 public:
     RGBGraphicsView(QWidget* parent = nullptr);
 
+    void setupLayout();
+
+public slots:
+    void changeColors(int color);
+    void changeMode(int mode);
+
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 };
