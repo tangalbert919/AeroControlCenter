@@ -1,5 +1,6 @@
 #include "rgbgraphicsview.h"
 
+#include <QGraphicsItem>
 #include <QMouseEvent>
 
 RGBGraphicsView::RGBGraphicsView(QWidget* parent) : QGraphicsView(parent)
@@ -9,13 +10,33 @@ RGBGraphicsView::RGBGraphicsView(QWidget* parent) : QGraphicsView(parent)
 
 void RGBGraphicsView::changeColors(int color)
 {
-    // TODO: Implement
-    setBackgroundBrush(Qt::yellow);
+    QGraphicsScene *scene = this->scene();
+    QList<QGraphicsItem*> items = scene->items();
+    QBrush brush;
+    int colors[7] = { Qt::red, Qt::green, Qt::yellow, Qt::blue, 0, 0, Qt::white };
+    qInfo("Color is %d", color);
+    if (color == 4) // orange
+        brush = QBrush(QColor(253,126,20));
+    else if (color == 5) // purple
+        brush = QBrush(QColor(153,0,204));
+    else
+        brush = QBrush((Qt::GlobalColor) colors[color]);
+    for (auto i = items.begin(), end = items.end(); i != end; i++) {
+        QGraphicsRectItem *rect = qgraphicsitem_cast<QGraphicsRectItem*>(*i);
+        rect->setBrush(brush);
+        rect->update();
+    }
 }
 
 void RGBGraphicsView::changeMode(int mode)
 {
     // TODO: Implement
+    QGraphicsScene *scene = this->scene();
+    QList items = scene->items();
+    qInfo("Mode is %d", mode);
+    if (mode == 0) { // static
+        // TODO: Implement
+    }
 }
 
 void RGBGraphicsView::mousePressEvent(QMouseEvent *event)

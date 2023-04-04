@@ -208,6 +208,11 @@ void MainWindow::setupRGB()
     rgbView->setScene(rgbScene);
     rgbScene->setSceneRect(0,0,760,420);
     rgbView->setupLayout();
+
+    connect(ui->rgbModes, &QComboBox::currentIndexChanged,
+            rgbView, &RGBGraphicsView::changeMode);
+    connect(ui->rgbColors, &QComboBox::currentIndexChanged,
+            rgbView, &RGBGraphicsView::changeColors);
 }
 
 // Add new slots below this comment.
