@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QtDBus>
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
@@ -30,6 +31,12 @@ int main(int argc, char *argv[])
 {
     qInstallMessageHandler(myMessageOutput);
     QApplication app(argc, argv);
+
+    if (!QDBusConnection::sessionBus().isConnected()) {
+        qWarning("Cannot connect to the D-Bus session bus.");
+        return 1;
+    }
+
     QCoreApplication::setApplicationName("Aero Control Center");
     QCoreApplication::setApplicationVersion(BUILD_VERSION);
 

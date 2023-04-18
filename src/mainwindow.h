@@ -9,6 +9,7 @@
 #include <QMainWindow>
 #include <QGraphicsEllipseItem>
 #include <QGraphicsScene>
+#include <QDBusInterface>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -42,7 +43,11 @@ private:
     QGraphicsScene *rgbScene;
     RGBGraphicsView *rgbView;
 
+    // D-Bus
+    QDBusInterface *dbus;
+
     void getCPUInfo();
+    void setupDBus();
     void setupGauges();
     void setupMenu();
     void setupRGB();

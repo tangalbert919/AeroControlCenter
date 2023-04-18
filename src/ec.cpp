@@ -147,3 +147,8 @@ void EC::setCustomFanSpeed(unsigned short speed)
     qf.close();
     customFanSpeed = speed;
 }
+
+void EC::setDBus(QDBusInterface *dbus)
+{
+    this->dbus = dbus;
+}

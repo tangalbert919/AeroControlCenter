@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QTabBar>
+#include <QDBusReply>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -93,6 +94,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Get CPU info.
     getCPUInfo();
 
+    // Setup D-Bus.
+    setupDBus();
+
     // Start timer to refresh gauge
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()),
@@ -177,6 +181,12 @@ void MainWindow::setupGauges()
     memoryText = memoryScene->addText("Polling memory usage...");
     memoryText->setY(150);
     memoryText->setX(127 - (memoryText->boundingRect().width() / 2));
+}
+
+void MainWindow::setupDBus()
+{
+    dbus = new QDBusInterface("org.gigabyte.daemon", "/", "org.gigabyte.interface");
+    ec->setDBus(dbus);
 }
 
 void MainWindow::setupMenu()
