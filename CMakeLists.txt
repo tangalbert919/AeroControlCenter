@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_definitions(BUILD_VERSION="0.0.1")
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets DBus)
 
 set(PROJECT_SOURCES
         src/data.h
@@ -57,6 +57,7 @@ endif()
 
 target_link_libraries(AeroControlCenter PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::DBus
     -lusb-1.0)
 
 set_target_properties(AeroControlCenter PROPERTIES
