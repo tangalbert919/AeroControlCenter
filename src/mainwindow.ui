@@ -270,6 +270,54 @@
        <string>CPU: </string>
       </property>
      </widget>
+     <widget class="QSlider" name="chargeLimitSlider">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>450</y>
+        <width>160</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="minimum">
+       <number>60</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="tickInterval">
+       <number>5</number>
+      </property>
+     </widget>
+     <widget class="QLabel" name="chargeLimitLabel">
+      <property name="geometry">
+       <rect>
+        <x>510</x>
+        <y>450</y>
+        <width>31</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0%</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="chargeLabel">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>370</y>
+        <width>181</width>
+        <height>18</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Charge Mode</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="rgbTab">
      <attribute name="title">

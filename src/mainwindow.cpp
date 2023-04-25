@@ -60,19 +60,29 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->setFanSpeedBtn, &QPushButton::clicked, this,
             [=]() { this->updateCustomFanSpeed(ui->fanCustomSlider->value()); });
 
-    // Disable controls if kernel driver is not running.
+    // Setup charging limit control.
+    connect(ui->chargeLimitSlider, &QSlider::valueChanged, this, &MainWindow::printSliderPosition);
+
+    // Disable controls if kernel driver is not running. Just checking custom fan speed will do.
     if (ec->getCustomFanSpeed() == 0) {
         ui->fanCustomSlider->setDisabled(true);
         ui->setFanSpeedBtn->setDisabled(true);
+        ui->chargeLimitSlider->setDisabled(true);
     } else {
         ui->fanCustomSlider->setValue(ec->getCustomFanSpeed());
         ui->fanCustomPercent->setText(QString::number(ec->getCustomFanSpeed()) + "%");
+        ui->chargeLimitLabel->setText(QString::number(ec->getChargeLimit()) + "%");
     }
-    // Hide them if we are not on custom mode or kernel driver is not running.
+    // Hide fan controls if not on custom mode.
     if (ec->getFanMode() < 3) {
         ui->fanCustomSlider->setVisible(false);
         ui->fanCustomPercent->setVisible(false);
         ui->setFanSpeedBtn->setVisible(false);
+    }
+    // Hide charging limit if not on custom mode.
+    if (ec->getChargeMode() < 1) {
+        ui->chargeLimitLabel->setVisible(false);
+        ui->chargeLimitSlider->setVisible(false);
     }
 
     // Hook up fan mode buttons.
@@ -314,4 +324,20 @@ void MainWindow::updateCustomFanSpeed(unsigned short speed)
         return;
 
     ec->setCustomFanSpeed(speed);
+}
+
+void MainWindow::updateChargingMode(unsigned short mode)
+{
+    if (ec->getChargeMode() == mode)
+        return;
+
+    ec->setChargeMode(mode);
+}
+
+void MainWindow::updateChargingLimit(unsigned short limit)
+{
+    if (ec->getChargeLimit() == limit)
+        return;
+
+    ec->setChargeLimit(limit);
 }

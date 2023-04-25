@@ -59,5 +59,7 @@ private slots:
     void updateGauge();
     void updateFanMode(unsigned short mode);
     void updateCustomFanSpeed(unsigned short speed);
+    void updateChargingMode(unsigned short mode);
+    void updateChargingLimit(unsigned short limit);
 };
 #endif // MAINWINDOW_H

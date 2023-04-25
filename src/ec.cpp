@@ -53,6 +53,26 @@ EC::EC()
             customFanSpeed = stream.readLine().toInt();
         }
         speedFile.close();
+
+        // Get the charge mode.
+        QFile chargeModeFile(kernelDir.absolutePath() + "/charge_mode");
+        if (!speedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            chargeMode = 0;
+        } else {
+            QTextStream stream(&chargeModeFile);
+            chargeMode = stream.readLine().toInt();
+        }
+        chargeModeFile.close();
+
+        // Get the charge limit.
+        QFile chargeLimitFile(kernelDir.absolutePath() + "/charge_limit");
+        if (!speedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            chargeLimit = 100;
+        } else {
+            QTextStream stream(&chargeLimitFile);
+            chargeLimit = stream.readLine().toInt();
+        }
+        chargeLimitFile.close();
     }
 
     // Create the timer.
@@ -108,6 +128,16 @@ unsigned short EC::getCustomFanSpeed()
     return customFanSpeed;
 }
 
+unsigned short EC::getChargeMode()
+{
+    return chargeMode;
+}
+
+unsigned short EC::getChargeLimit()
+{
+    return chargeLimit;
+}
+
 void EC::checkEC()
 {
     //qInfo("Checking timer");
@@ -146,6 +176,16 @@ void EC::setCustomFanSpeed(unsigned short speed)
     qf.write(buf);
     qf.close();
     customFanSpeed = speed;
+}
+
+void EC::setChargeMode(unsigned short mode)
+{
+    // TODO: Implement
+}
+
+void EC::setChargeLimit(unsigned short limit)
+{
+    // TODO: Implement
 }
 
 void EC::setDBus(QDBusInterface *dbus)
