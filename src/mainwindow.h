@@ -54,7 +54,7 @@ private:
 
 private slots:
     void openAboutPopup();
-    void printSliderPosition();
+    void printSliderPosition(unsigned short slider);
     void updateSliderPosition();
     void updateGauge();
     void updateFanMode(unsigned short mode);

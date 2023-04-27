@@ -56,12 +56,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Setup the fan speed controls. Only effective in custom mode.
     connect(ui->fanCustomSlider, &QSlider::sliderReleased, this, &MainWindow::updateSliderPosition);
-    connect(ui->fanCustomSlider, &QSlider::valueChanged, this, &MainWindow::printSliderPosition);
+    connect(ui->fanCustomSlider, &QSlider::valueChanged, this,
+            [=]() { this->printSliderPosition(0); });
     connect(ui->setFanSpeedBtn, &QPushButton::clicked, this,
             [=]() { this->updateCustomFanSpeed(ui->fanCustomSlider->value()); });
 
     // Setup charging limit control.
-    connect(ui->chargeLimitSlider, &QSlider::valueChanged, this, &MainWindow::printSliderPosition);
+    connect(ui->chargeLimitSlider, &QSlider::valueChanged, this,
+            [=]() { this->printSliderPosition(1); });
 
     // Disable controls if kernel driver is not running. Just checking custom fan speed will do.
     if (ec->getCustomFanSpeed() == 0) {
@@ -70,6 +72,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->chargeLimitSlider->setDisabled(true);
     } else {
         ui->fanCustomSlider->setValue(ec->getCustomFanSpeed());
+        ui->chargeLimitSlider->setValue(ec->getChargeLimit());
         ui->fanCustomPercent->setText(QString::number(ec->getCustomFanSpeed()) + "%");
         ui->chargeLimitLabel->setText(QString::number(ec->getChargeLimit()) + "%");
     }
@@ -94,6 +97,12 @@ MainWindow::MainWindow(QWidget *parent)
             [=]() { this->updateFanMode(2); });
     connect(ui->fanCustomBtn, &QPushButton::clicked, this,
             [=]() { this->updateFanMode(3); });
+
+    // Hook up charging mode buttons.
+    connect(ui->chargeCustomBtn, &QPushButton::clicked, this,
+            [=]() { this->updateChargingMode(1); });
+    connect(ui->chargeDefaultBtn, &QPushButton::clicked, this,
+            [=]() { this->updateChargingMode(0); });
 
     // Setup RGB controls.
     setupRGB();
@@ -245,11 +254,17 @@ void MainWindow::openAboutPopup()
     aboutBox.exec();
 }
 
-void MainWindow::printSliderPosition()
+void MainWindow::printSliderPosition(unsigned short slider)
 {
     unsigned short speed;
-    speed = ui->fanCustomSlider->sliderPosition();
-    ui->fanCustomPercent->setText(QString::number(speed) + "%");
+    if (slider == 0) {
+        speed = ui->fanCustomSlider->sliderPosition();
+        ui->fanCustomPercent->setText(QString::number(speed) + "%");
+    }
+    else {
+        speed = ui->chargeLimitSlider->sliderPosition();
+        ui->chargeLimitLabel->setText(QString::number(speed) + "%");
+    }
 }
 
 void MainWindow::updateSliderPosition()
@@ -260,7 +275,7 @@ void MainWindow::updateSliderPosition()
         speed = speed - remainder;
         ui->fanCustomSlider->setValue(speed);
     }
-    printSliderPosition();
+    printSliderPosition(0);
 }
 
 void MainWindow::updateGauge()

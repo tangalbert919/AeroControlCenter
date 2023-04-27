@@ -56,7 +56,7 @@ EC::EC()
 
         // Get the charge mode.
         QFile chargeModeFile(kernelDir.absolutePath() + "/charge_mode");
-        if (!speedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        if (!chargeModeFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             chargeMode = 0;
         } else {
             QTextStream stream(&chargeModeFile);
@@ -66,7 +66,7 @@ EC::EC()
 
         // Get the charge limit.
         QFile chargeLimitFile(kernelDir.absolutePath() + "/charge_limit");
-        if (!speedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        if (!chargeLimitFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             chargeLimit = 100;
         } else {
             QTextStream stream(&chargeLimitFile);

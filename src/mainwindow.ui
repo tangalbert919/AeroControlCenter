@@ -288,6 +288,9 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
+      <property name="tickPosition">
+       <enum>QSlider::NoTicks</enum>
+      </property>
       <property name="tickInterval">
        <number>5</number>
       </property>
@@ -316,6 +319,32 @@
       </property>
       <property name="text">
        <string>Charge Mode</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="chargeDefaultBtn">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>400</y>
+        <width>80</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Default</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="chargeCustomBtn">
+      <property name="geometry">
+       <rect>
+        <x>430</x>
+        <y>400</y>
+        <width>80</width>
+        <height>26</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Custom</string>
       </property>
      </widget>
     </widget>
@@ -832,6 +861,70 @@
     <hint type="destinationlabel">
      <x>299</x>
      <y>525</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chargeCustomBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>chargeLimitSlider</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>481</x>
+     <y>465</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>431</x>
+     <y>511</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chargeDefaultBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>chargeLimitSlider</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>465</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>431</x>
+     <y>511</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chargeCustomBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>chargeLimitLabel</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>481</x>
+     <y>465</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>511</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chargeDefaultBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>chargeLimitLabel</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>391</x>
+     <y>465</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>537</x>
+     <y>511</y>
     </hint>
    </hints>
   </connection>
