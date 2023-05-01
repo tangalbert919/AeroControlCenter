@@ -129,9 +129,12 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
     if (res < 0)
         qWarning("Failed to enter programming mode");
 
-    // TODO: Implement pushing data to endpoint 5
+    // TODO: Push custom data instead
     for (uint8_t i = 0; i < 8; i++) {
         int transferred = 0;
+        res = libusb_interrupt_transfer(handle, 0x06, m_white_data + (i * 64), 64, &transferred, 0);
+        if (res < 0 || transferred != 64)
+            qInfo("Interrupt transfer failed");
     }
 
     // Select custom profile again
