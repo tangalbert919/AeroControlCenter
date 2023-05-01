@@ -563,6 +563,9 @@
         <height>24</height>
        </rect>
       </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
      </widget>
      <widget class="QSpinBox" name="rgbGreenBox">
       <property name="geometry">
@@ -573,6 +576,9 @@
         <height>24</height>
        </rect>
       </property>
+      <property name="maximum">
+       <number>255</number>
+      </property>
      </widget>
      <widget class="QSpinBox" name="rgbBlueBox">
       <property name="geometry">
@@ -582,6 +588,9 @@
         <width>42</width>
         <height>24</height>
        </rect>
+      </property>
+      <property name="maximum">
+       <number>255</number>
       </property>
      </widget>
      <widget class="QLabel" name="label">

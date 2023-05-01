@@ -242,6 +242,15 @@ void MainWindow::setupRGB()
             rgbView, &RGBGraphicsView::changeMode);
     connect(ui->rgbColors, &QComboBox::currentIndexChanged,
             rgbView, &RGBGraphicsView::changeColors);
+    connect(ui->rgbBlueBox, &QSpinBox::valueChanged, rgbView, [=]() {
+        rgbView->adjustBrush(ui->rgbBlueBox->value(), 2);
+    });
+    connect(ui->rgbGreenBox, &QSpinBox::valueChanged, rgbView, [=]() {
+        rgbView->adjustBrush(ui->rgbGreenBox->value(), 1);
+    });
+    connect(ui->rgbRedBox, &QSpinBox::valueChanged, rgbView, [=]() {
+        rgbView->adjustBrush(ui->rgbRedBox->value(), 0);
+    });
 }
 
 // Add new slots below this comment.

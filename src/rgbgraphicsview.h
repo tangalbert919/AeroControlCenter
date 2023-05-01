@@ -14,9 +14,14 @@ public:
 public slots:
     void changeColors(int color);
     void changeMode(int mode);
+    void adjustBrush(int color, int rgb);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+
+private:
+    QBrush customBrush;
+    int r, g, b;
 };
 
 #endif // RGBGRAPHICSVIEW_H

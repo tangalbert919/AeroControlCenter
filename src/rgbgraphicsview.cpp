@@ -5,7 +5,11 @@
 
 RGBGraphicsView::RGBGraphicsView(QWidget* parent) : QGraphicsView(parent)
 {
-
+    // Setup custom brush
+    customBrush = QBrush(Qt::white);
+    r = 0;
+    g = 0;
+    b = 0;
 }
 
 void RGBGraphicsView::changeColors(int color)
@@ -39,11 +43,30 @@ void RGBGraphicsView::changeMode(int mode)
     }
 }
 
+void RGBGraphicsView::adjustBrush(int color, int rgb)
+{
+    if (rgb == 0)
+        r = color;
+    else if (rgb == 1)
+        g = color;
+    else
+        b = color;
+    customBrush.setColor(QColor(r, g, b));
+}
+
 void RGBGraphicsView::mousePressEvent(QMouseEvent *event)
 {
-    // TODO: Implement
     QPointF point = mapToScene(event->pos());
     qInfo("Click at (%f,%f)", point.x(), point.y());
+    QGraphicsItem *item = this->itemAt(event->pos());
+    if (item == nullptr) {
+        qInfo("No item found here");
+    }
+    else {
+        QGraphicsRectItem *rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
+        rect->setBrush(customBrush);
+        rect->update();
+    }
 }
 
 void RGBGraphicsView::setupLayout()
