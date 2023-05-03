@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(myMessageOutput);
     QApplication app(argc, argv);
 
-    if (!QDBusConnection::sessionBus().isConnected()) {
+    if (!QDBusConnection::systemBus().isConnected()) {
         qWarning("Cannot connect to the D-Bus session bus.");
         return 1;
     }

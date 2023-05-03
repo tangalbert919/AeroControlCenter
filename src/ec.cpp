@@ -1,5 +1,6 @@
 #include "ec.h"
 
+#include <QDBusReply>
 #include <QDir>
 #include <QFile>
 #include <QTextStream>
@@ -150,13 +151,18 @@ int EC::setFanMode(unsigned short mode)
         return -1;
 
     // TODO: Figure out polkit. This only works if running as root!
-    char buf[2];
+    /*char buf[2];
     QFile qf("/sys/devices/platform/gigabyte_laptop/fan_mode");
     if (!qf.open(QIODevice::WriteOnly | QIODevice::Text))
         qDebug("failed");
     std::sprintf(buf, "%d", mode);
     qf.write(buf);
-    qf.close();
+    qf.close();*/
+    QDBusReply<int> reply = dbus->call("SwitchFanMode", mode);
+    if (!reply.isValid()) {
+        qInfo("Error: %s", reply.error().message().toStdString().c_str());
+        return 0;
+    }
     fanMode = mode;
     return 0;
 }
