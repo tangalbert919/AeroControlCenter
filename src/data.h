@@ -16,7 +16,10 @@ typedef struct {
 
 enum instructions {
     RGB_MODE = 0x08,
-    RGB_PROGRAM = 0x12
+    RGB_PROGRAM = 0x12,
+    RGB_GETREPORT = 0x88,
+    RGB_UNKNOWN = 0x8D,
+    RGB_READCONFIG = 0x92
 };
 
 enum mode {

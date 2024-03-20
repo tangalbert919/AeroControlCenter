@@ -57,6 +57,8 @@ RGBKeyboard::RGBKeyboard()
         goto done;
     }
     interfaceClaimed = true;
+
+    res = getFeatureReport();
 done:
     qInfo("RGB keyboard init finished");
 }
@@ -160,5 +162,35 @@ int RGBKeyboard::registerKeyboard()
 int RGBKeyboard::getFeatureReport()
 {
     // TODO: Implement
+    packet packet;
+    uint16_t chksum = 0;
+    uint8_t *data = (uint8_t*) &packet;
+    unsigned char config[512];
+    int res;
+
+    packet.instruction = RGB_GETREPORT;
+    packet.reserved = 0x00;
+    packet.mode = 0;
+    packet.speed = 0x00;
+    packet.brightness = 0x00;
+    packet.color = 0x00;
+    packet.offset = 0x00;
+    for (int i = 0; i < 7; i++)
+        chksum += data[i];
+    packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
+
+    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0)
+        qWarning("Unable to enter report reading mode");
+    // Now we can get the report from the input endpoint.
+    res = libusb_control_transfer(handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    // TODO: Make sure this only runs if custom mode is detected
+    for (uint8_t i = 0; i < 8; i++) {
+        int transferred = 0;
+        res = libusb_interrupt_transfer(handle, 0x85, config + (i * 64), 64, &transferred, 10);
+        if (res < 0 || transferred != 64)
+            qInfo("Interrupt transfer failed");
+    }
+    qInfo("RGB finished, got %d", packet.mode);
     return 0;
 }
