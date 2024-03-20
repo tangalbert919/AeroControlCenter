@@ -241,8 +241,20 @@ void MainWindow::setupRGB()
 
     connect(ui->rgbModes, &QComboBox::currentIndexChanged,
             rgbView, &RGBGraphicsView::changeMode);
+    connect(ui->rgbModes, &QComboBox::currentIndexChanged, rgbView, [=]() {
+        // hide color selection on wave, neon and rainbow marquee
+        if (ui->rgbModes->currentIndex() == 2 || ui->rgbModes->currentIndex() == 7 || ui->rgbModes->currentIndex() == 8) {
+            ui->rgbColors->setHidden(true);
+            ui->rgbRandom->setHidden(true);
+        }
+        else {
+            ui->rgbColors->setHidden(false);
+            ui->rgbRandom->setHidden(false);
+        }
+    });
     connect(ui->rgbColors, &QComboBox::currentIndexChanged,
             rgbView, &RGBGraphicsView::changeColors);
+    connect(ui->rgbRandom, &QCheckBox::stateChanged, ui->rgbColors, &QComboBox::setDisabled);
     connect(ui->rgbBlueBox, &QSpinBox::valueChanged, rgbView, [=]() {
         rgbView->adjustBrush(ui->rgbBlueBox->value(), 2);
     });
