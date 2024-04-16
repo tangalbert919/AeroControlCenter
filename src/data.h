@@ -14,6 +14,17 @@ typedef struct {
     uint8_t checksum;
 } packet;
 
+void clear_packet(packet *packet) {
+    packet->instruction = 0x00;
+    packet->reserved = 0x00;
+    packet->mode = 0x00;
+    packet->speed = 0x00;
+    packet->brightness = 0x00;
+    packet->color = 0x00;
+    packet->offset = 0x00;
+    packet->checksum = 0x00;
+}
+
 enum instructions {
     RGB_MODE = 0x08,
     RGB_PROGRAM = 0x12,

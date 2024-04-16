@@ -180,17 +180,42 @@ int RGBKeyboard::getFeatureReport()
     packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
 
     res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
-    if (res < 0)
+    if (res < 0) {
         qWarning("Unable to enter report reading mode");
+        goto done;
+    }
     // Now we can get the report from the input endpoint.
     res = libusb_control_transfer(handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
-    // TODO: Make sure this only runs if custom mode is detected
-    for (uint8_t i = 0; i < 8; i++) {
-        int transferred = 0;
-        res = libusb_interrupt_transfer(handle, 0x85, config + (i * 64), 64, &transferred, 10);
-        if (res < 0 || transferred != 64)
-            qInfo("Interrupt transfer failed");
+    if (res < 0) {
+        qWarning("Unable to obtain report");
+        goto done;
     }
+    // TODO: Move this into method for RGBGraphicsView to call
+    if (packet.mode >= CUSTOM_ONE) {
+        // Set keyboard mode to read config for custom mode
+        clear_packet(&packet);
+        packet.instruction = RGB_READCONFIG;
+        packet.checksum = (0xFF - (RGB_READCONFIG & 0xFF));
+        res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+        if (res < 0) {
+            qWarning("Unable to enter report reading mode");
+            goto done;
+        }
+        // Call IN endpoint to start the transfer
+        res = libusb_control_transfer(handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+        if (res < 0) {
+            qWarning("Unable to start transfer");
+            goto done;
+        }
+        for (uint8_t i = 0; i < 8; i++) {
+            int transferred = 0;
+            res = libusb_interrupt_transfer(handle, 0x85, m_white_data + (i * 64), 64, &transferred, 10);
+            if (res < 0 || transferred != 64)
+                qInfo("Interrupt transfer failed");
+        }
+    }
+
+done:
     qInfo("RGB finished, got %d", packet.mode);
     return 0;
 }
