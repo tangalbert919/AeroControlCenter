@@ -58,7 +58,11 @@ RGBKeyboard::RGBKeyboard()
     }
     interfaceClaimed = true;
 
+    // Get current keyboard configuration
     res = getFeatureReport();
+    if (res) {
+        qInfo("Failed to get current configuration");
+    }
 done:
     qInfo("RGB keyboard init finished");
 }
@@ -161,11 +165,9 @@ int RGBKeyboard::registerKeyboard()
 
 int RGBKeyboard::getFeatureReport()
 {
-    // TODO: Implement
     packet packet;
     uint16_t chksum = 0;
     uint8_t *data = (uint8_t*) &packet;
-    unsigned char config[512];
     int res;
 
     packet.instruction = RGB_GETREPORT;
@@ -190,6 +192,16 @@ int RGBKeyboard::getFeatureReport()
         qWarning("Unable to obtain report");
         goto done;
     }
+    // Send needed data to set initial RGB UI settings
+    if (packet.mode >= CUSTOM_ONE)
+        current.mode = packet.mode - 38;
+    else
+        current.mode = packet.mode - 1;
+    current.brightness = packet.brightness / 25;
+    current.speed = 11 - packet.speed;
+    current.color = packet.color - 1;
+    current.random = packet.color & 0x08;
+
     // TODO: Move this into method for RGBGraphicsView to call
     if (packet.mode >= CUSTOM_ONE) {
         // Set keyboard mode to read config for custom mode
@@ -211,7 +223,7 @@ int RGBKeyboard::getFeatureReport()
             int transferred = 0;
             res = libusb_interrupt_transfer(handle, 0x85, m_white_data + (i * 64), 64, &transferred, 10);
             if (res < 0 || transferred != 64)
-                qInfo("Interrupt transfer failed");
+                qInfo("Interrupt transfer failed: ret is %d, transferred is %d", res, transferred);
         }
     }
 

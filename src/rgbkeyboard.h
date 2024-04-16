@@ -5,10 +5,20 @@
 
 #include <libusb-1.0/libusb.h>
 
+// This will be used by MainWindow.
+struct rgb_settings {
+    uint8_t mode;
+    uint8_t speed;
+    uint8_t brightness;
+    uint8_t color;
+    uint8_t random;
+};
+
 class RGBKeyboard : public QObject
 {
     Q_OBJECT
 public:
+    rgb_settings current;
     RGBKeyboard();
     ~RGBKeyboard();
 

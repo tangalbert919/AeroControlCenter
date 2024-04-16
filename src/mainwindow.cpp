@@ -264,6 +264,12 @@ void MainWindow::setupRGB()
     connect(ui->rgbRedBox, &QSpinBox::valueChanged, rgbView, [=]() {
         rgbView->adjustBrush(ui->rgbRedBox->value(), 0);
     });
+
+    ui->rgbModes->setCurrentIndex(rgb->current.mode);
+    ui->rgbColors->setCurrentIndex(rgb->current.color);
+    ui->rgbRandom->setChecked(rgb->current.random);
+    ui->rgbBrightnessSlider->setSliderPosition(rgb->current.brightness);
+    ui->rgbSpeedSlider->setSliderPosition(rgb->current.speed);
 }
 
 // Add new slots below this comment.
