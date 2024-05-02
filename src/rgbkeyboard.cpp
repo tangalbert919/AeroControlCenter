@@ -2,7 +2,6 @@
 
 #include "data.h"
 #include <QFile>
-#include <QTextStream>
 #include <QDataStream>
 
 RGBKeyboard::RGBKeyboard()
@@ -239,7 +238,6 @@ int RGBKeyboard::getFeatureReport()
     current.speed = 11 - packet.speed;
     current.random = packet.color & 0x08;
 
-    // TODO: Move this into method for RGBGraphicsView to call
     if (packet.mode >= CUSTOM_ONE) {
         getCustomModeLayout();
     }
