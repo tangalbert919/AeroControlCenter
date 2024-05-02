@@ -46,7 +46,7 @@ void RGBGraphicsView::changeMode(int mode)
     qInfo("Mode is %d", mode);
     this->mode = mode;
     if (mode == 0) { // static
-        // TODO: Implement
+        changeColors(this->color);
     } else if (mode > 12) {
         rgb->getCustomModeLayout();
     }
