@@ -114,6 +114,11 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
 
     if (mode > 12)
         setCustomMode(mode, brightness);
+    current.brightness = brightness;
+    current.mode = mode;
+    current.speed = speed;
+    current.color = color;
+    current.random = random;
 }
 
 void RGBKeyboard::getCustomModeLayout()
@@ -223,13 +228,15 @@ int RGBKeyboard::getFeatureReport()
         goto done;
     }
     // Send needed data to set initial RGB UI settings
-    if (packet.mode >= CUSTOM_ONE)
+    if (packet.mode >= CUSTOM_ONE) {
         current.mode = packet.mode - 38;
-    else
+        current.color = packet.color;
+    } else {
         current.mode = packet.mode - 1;
+        current.color = packet.color - 1;
+    }
     current.brightness = packet.brightness / 25;
     current.speed = 11 - packet.speed;
-    current.color = packet.color - 1;
     current.random = packet.color & 0x08;
 
     // TODO: Move this into method for RGBGraphicsView to call
