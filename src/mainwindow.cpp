@@ -239,6 +239,8 @@ void MainWindow::setupRGB()
     rgbScene->setSceneRect(0,0,760,420);
     rgbView->setupLayout();
 
+    rgbView->bindKeyboard(rgb);
+
     connect(ui->rgbModes, &QComboBox::currentIndexChanged,
             rgbView, &RGBGraphicsView::changeMode);
     connect(ui->rgbModes, &QComboBox::currentIndexChanged, rgbView, [=]() {

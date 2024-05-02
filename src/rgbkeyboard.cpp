@@ -1,6 +1,9 @@
 #include "rgbkeyboard.h"
 
 #include "data.h"
+#include <QFile>
+#include <QTextStream>
+#include <QDataStream>
 
 RGBKeyboard::RGBKeyboard()
 {
@@ -113,6 +116,42 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
         setCustomMode(mode, brightness);
 }
 
+void RGBKeyboard::getCustomModeLayout()
+{
+    // Set keyboard mode to read config for custom mode
+    packet packet;
+    int res;
+
+    packet.instruction = RGB_READCONFIG;
+    packet.checksum = (0xFF - (RGB_READCONFIG & 0xFF));
+    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0) {
+        qWarning("Unable to enter report reading mode");
+        return;
+    }
+    // Call IN endpoint to start the transfer
+    res = libusb_control_transfer(handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0) {
+        qWarning("Unable to start transfer");
+        return;
+    }
+    for (uint8_t i = 0; i < 8; i++) {
+        int transferred = 0;
+        res = libusb_interrupt_transfer(handle, 0x85, m_white_data + (i * 64), 64, &transferred, 50);
+        if (res < 0 || transferred != 64)
+            qInfo("Interrupt transfer failed at index %d: ret is %d, transferred is %d", i, res, transferred);
+    }
+    // Debugging purposes.
+    QFile debugFile("keyboard_data.txt");
+    if (!debugFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qInfo("Failed to open file");
+    }
+    QDataStream out(&debugFile);
+    for (uint8_t data : m_white_data) {
+        out << data;
+    }
+}
+
 void RGBKeyboard::setCustomMode(int mode, int brightness)
 {
     packet packet;
@@ -195,27 +234,7 @@ int RGBKeyboard::getFeatureReport()
 
     // TODO: Move this into method for RGBGraphicsView to call
     if (packet.mode >= CUSTOM_ONE) {
-        // Set keyboard mode to read config for custom mode
-        clear_packet(&packet);
-        packet.instruction = RGB_READCONFIG;
-        packet.checksum = (0xFF - (RGB_READCONFIG & 0xFF));
-        res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
-        if (res < 0) {
-            qWarning("Unable to enter report reading mode");
-            goto done;
-        }
-        // Call IN endpoint to start the transfer
-        res = libusb_control_transfer(handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
-        if (res < 0) {
-            qWarning("Unable to start transfer");
-            goto done;
-        }
-        for (uint8_t i = 0; i < 8; i++) {
-            int transferred = 0;
-            res = libusb_interrupt_transfer(handle, 0x85, m_white_data + (i * 64), 64, &transferred, 50);
-            if (res < 0 || transferred != 64)
-                qInfo("Interrupt transfer failed: ret is %d, transferred is %d", res, transferred);
-        }
+        getCustomModeLayout();
     }
 
 done:

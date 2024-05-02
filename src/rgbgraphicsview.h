@@ -1,6 +1,7 @@
 #ifndef RGBGRAPHICSVIEW_H
 #define RGBGRAPHICSVIEW_H
 
+#include "rgbkeyboard.h"
 #include <QGraphicsView>
 
 class RGBGraphicsView : public QGraphicsView
@@ -10,6 +11,7 @@ public:
     RGBGraphicsView(QWidget* parent = nullptr);
 
     void setupLayout();
+    void bindKeyboard(RGBKeyboard *keyboard);
 
 public slots:
     void changeColors(int color);
@@ -22,6 +24,8 @@ protected:
 private:
     QBrush customBrush;
     int r, g, b;
+    RGBKeyboard *rgb;
+    int mode, color;
 };
 
 #endif // RGBGRAPHICSVIEW_H

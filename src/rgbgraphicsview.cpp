@@ -12,6 +12,11 @@ RGBGraphicsView::RGBGraphicsView(QWidget* parent) : QGraphicsView(parent)
     b = 0;
 }
 
+void RGBGraphicsView::bindKeyboard(RGBKeyboard *keyboard)
+{
+    rgb = keyboard;
+}
+
 void RGBGraphicsView::changeColors(int color)
 {
     QGraphicsScene *scene = this->scene();
@@ -30,6 +35,7 @@ void RGBGraphicsView::changeColors(int color)
         rect->setBrush(brush);
         rect->update();
     }
+    this->color = color;
 }
 
 void RGBGraphicsView::changeMode(int mode)
@@ -38,8 +44,11 @@ void RGBGraphicsView::changeMode(int mode)
     QGraphicsScene *scene = this->scene();
     QList items = scene->items();
     qInfo("Mode is %d", mode);
+    this->mode = mode;
     if (mode == 0) { // static
         // TODO: Implement
+    } else if (mode > 12) {
+        rgb->getCustomModeLayout();
     }
 }
 
