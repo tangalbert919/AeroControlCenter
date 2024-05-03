@@ -6,10 +6,10 @@
 RGBGraphicsView::RGBGraphicsView(QWidget* parent) : QGraphicsView(parent)
 {
     // Setup custom brush
-    customBrush = QBrush(Qt::white);
     r = 0;
     g = 0;
     b = 0;
+    customBrush = QBrush(QColor(r, g, b));
 }
 
 void RGBGraphicsView::bindKeyboard(RGBKeyboard *keyboard)
