@@ -65,6 +65,11 @@ void RGBGraphicsView::adjustBrush(int color, int rgb)
 
 void RGBGraphicsView::mousePressEvent(QMouseEvent *event)
 {
+    // If not in custom mode, ignore mouse press events.
+    if (this->mode <= 12) {
+        return;
+    }
+
     QPointF point = mapToScene(event->pos());
     qInfo("Click at (%f,%f)", point.x(), point.y());
     QGraphicsItem *item = this->itemAt(event->pos());
