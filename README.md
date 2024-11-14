@@ -59,8 +59,6 @@ To run the program, just run:
 - [x] Add keyboard RGB functionality
 - [x] Add UI for keyboard RGB
 - [x] Add support for AORUS models
-- [ ] Add support for Gigabyte Gaming models (maybe)
-- [ ] Port this program to Windows (maybe)
 
 ## Interesting projects
 - [fusion-kbd-controller](https://github.com/martin31821/fusion-kbd-controller) (only supports Aero 15X)
