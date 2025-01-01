@@ -9,7 +9,7 @@
 EC::EC()
 {
     // Check if our kernel driver is running. Easiest way is to find its directory.
-    QDir kernelDir("/sys/devices/platform/gigabyte_laptop");
+    QDir kernelDir("/sys/devices/platform/aorus_laptop");
     if (!kernelDir.exists()) {
         qInfo("Kernel driver not running, some controls will not work!");
         adjustableFanMode = false;
