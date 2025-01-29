@@ -66,7 +66,8 @@ enum color {
 };
 
 enum vendors {
-    CHU_YUEN = 0x1044
+    CHU_YUEN = 0x1044,
+    GIGABYTE = 0x0414
 };
 
 // Copied from https://github.com/martin31821/fusion-kbd-controller/blob/master/data.c
