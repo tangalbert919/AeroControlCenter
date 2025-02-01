@@ -66,10 +66,10 @@
        </rect>
       </property>
       <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
      </widget>
      <widget class="QGraphicsView" name="gpuView">
@@ -82,10 +82,10 @@
        </rect>
       </property>
       <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
      </widget>
      <widget class="QGraphicsView" name="memoryView">
@@ -98,10 +98,10 @@
        </rect>
       </property>
       <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
       <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
+       <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
       </property>
      </widget>
      <widget class="QLabel" name="fanModeLabel">
@@ -162,10 +162,10 @@
        <number>5</number>
       </property>
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="tickPosition">
-       <enum>QSlider::TicksBothSides</enum>
+       <enum>QSlider::TickPosition::TicksBothSides</enum>
       </property>
       <property name="tickInterval">
        <number>5</number>
@@ -286,10 +286,10 @@
        <number>100</number>
       </property>
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="tickPosition">
-       <enum>QSlider::NoTicks</enum>
+       <enum>QSlider::TickPosition::NoTicks</enum>
       </property>
       <property name="tickInterval">
        <number>5</number>
@@ -494,10 +494,10 @@
        <number>2</number>
       </property>
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="tickPosition">
-       <enum>QSlider::TicksBothSides</enum>
+       <enum>QSlider::TickPosition::TicksBothSides</enum>
       </property>
      </widget>
      <widget class="QLabel" name="rgbBrightnessLabel">
@@ -532,10 +532,10 @@
        <number>2</number>
       </property>
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+       <enum>Qt::Orientation::Horizontal</enum>
       </property>
       <property name="tickPosition">
-       <enum>QSlider::TicksBothSides</enum>
+       <enum>QSlider::TickPosition::TicksBothSides</enum>
       </property>
       <property name="tickInterval">
        <number>1</number>
