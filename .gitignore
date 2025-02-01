@@ -71,3 +71,6 @@ Thumbs.db
 *.dll
 *.exe
 
+# Qt Creator generated files
+build/
+CMakeLists.txt.user
