@@ -150,18 +150,13 @@ int EC::setFanMode(unsigned short mode)
     if (!adjustableFanMode)
         return -1;
 
-    // TODO: Figure out polkit. This only works if running as root!
-    /*char buf[2];
-    QFile qf("/sys/devices/platform/gigabyte_laptop/fan_mode");
-    if (!qf.open(QIODevice::WriteOnly | QIODevice::Text))
-        qDebug("failed");
-    std::sprintf(buf, "%d", mode);
-    qf.write(buf);
-    qf.close();*/
     QDBusReply<int> reply = dbus->call("SwitchFanMode", mode);
     if (!reply.isValid()) {
         qInfo("Error: %s", reply.error().message().toStdString().c_str());
         return 0;
+    }
+    else {
+        qInfo("Reply: %d", reply.value());
     }
     fanMode = mode;
     return 0;
@@ -173,25 +168,39 @@ void EC::setCustomFanSpeed(unsigned short speed)
     if (!adjustableFanMode)
         return;
 
-    // TODO: Figure out polkit. This only works if running as root!
-    char buf[2];
-    QFile qf("/sys/devices/platform/gigabyte_laptop/fan_custom_speed");
-    if (!qf.open(QIODevice::WriteOnly | QIODevice::Text))
-        qDebug("failed");
-    std::sprintf(buf, "%d", speed);
-    qf.write(buf);
-    qf.close();
+    QDBusReply<int> reply = dbus->call("SetFanSpeed", speed);
+    if (!reply.isValid()) {
+        qInfo("Error: %s", reply.error().message().toStdString().c_str());
+        return;
+    }
+    else {
+        qInfo("Reply: %d", reply.value());
+    }
     customFanSpeed = speed;
 }
 
 void EC::setChargeMode(unsigned short mode)
 {
-    // TODO: Implement
+    QDBusReply<int> reply = dbus->call("SetChargeMode", mode);
+    if (!reply.isValid()) {
+        qInfo("Error: %s", reply.error().message().toStdString().c_str());
+        return;
+    }
+    else {
+        qInfo("Reply: %d", reply.value());
+    }
 }
 
 void EC::setChargeLimit(unsigned short limit)
 {
-    // TODO: Implement
+    QDBusReply<int> reply = dbus->call("SetChargeLimit", limit);
+    if (!reply.isValid()) {
+        qInfo("Error: %s", reply.error().message().toStdString().c_str());
+        return;
+    }
+    else {
+        qInfo("Reply: %d", reply.value());
+    }
 }
 
 void EC::setDBus(QDBusInterface *dbus)
