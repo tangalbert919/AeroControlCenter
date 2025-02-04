@@ -205,7 +205,7 @@ void MainWindow::setupGauges()
 void MainWindow::setupDBus()
 {
     dbus = new QDBusInterface("com.gigabyte.daemon", "/com/gigabyte/Platform",
-                              "com.gigabyte.Platform", QDBusConnection::systemBus());
+                              "com.gigabyte.Platform", QDBusConnection::sessionBus());
     ec->setDBus(dbus);
 }
 
