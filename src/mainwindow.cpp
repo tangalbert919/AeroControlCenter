@@ -268,7 +268,10 @@ void MainWindow::setupRGB()
     });
 
     ui->rgbModes->setCurrentIndex(rgb->current.mode);
-    ui->rgbColors->setCurrentIndex(rgb->current.color);
+    if (rgb->current.color < 0) // For modes not requiring color selection
+        ui->rgbColors->setCurrentIndex(0);
+    else
+        ui->rgbColors->setCurrentIndex(rgb->current.color);
     ui->rgbRandom->setChecked(rgb->current.random);
     ui->rgbBrightnessSlider->setSliderPosition(rgb->current.brightness);
     ui->rgbSpeedSlider->setSliderPosition(rgb->current.speed);

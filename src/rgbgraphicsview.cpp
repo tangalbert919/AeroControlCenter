@@ -28,8 +28,10 @@ void RGBGraphicsView::changeColors(int color)
         brush = QBrush(QColor(253,126,20));
     else if (color == 5) // purple
         brush = QBrush(QColor(153,0,204));
-    else
+    else if (color >= 0)
         brush = QBrush((Qt::GlobalColor) colors[color]);
+    else // Default if color mode does not have color selection.
+        brush = QBrush((Qt::GlobalColor) colors[0]);
     for (auto i = items.begin(), end = items.end(); i != end; i++) {
         QGraphicsRectItem *rect = qgraphicsitem_cast<QGraphicsRectItem*>(*i);
         rect->setBrush(brush);
@@ -92,6 +94,7 @@ void RGBGraphicsView::setupLayout()
     }
 
     QPen pen(QColor(Qt::black), 3, Qt::SolidLine);
+    // TODO: Reimplement this to use XML and bind all keys to m_white_data in data.h
     // Function row
     for (int i = 0; i < 19; i++) {
         scene->addRect(QRectF(i*40,10,40,20), pen);
