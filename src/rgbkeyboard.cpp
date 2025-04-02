@@ -90,6 +90,11 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
     uint8_t *data = (uint8_t*) &packet;
     int res;
 
+    if (!keyboardAttached) {
+        qInfo("RGB is not supported on this machine");
+        return;
+    }
+
     packet.instruction = RGB_MODE;
     packet.reserved = 0x00;
     if (mode <= 12)
