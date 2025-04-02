@@ -28,7 +28,7 @@ RGBKeyboard::RGBKeyboard()
         res = libusb_get_device_descriptor(device, &desc);
         if (res)
             goto done;
-        if (desc.idVendor == CHU_YUEN) {
+        if (desc.idVendor == CHU_YUEN || (desc.idVendor == GIGABYTE && desc.idProduct == 0x8004)) {
             found = device;
             break;
         }
