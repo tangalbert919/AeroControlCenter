@@ -27,12 +27,14 @@ public slots:
     void getCustomModeLayout();
 
 private:
-    libusb_device_handle *handle;
-    bool keyboardAttached = false, interfaceClaimed = false;
+    libusb_device_handle *keyboard_handle, *light_bar;
+    bool keyboardAttached = false, keyboardClaimed = false;
+    bool lightbarAttached = false, lightbarClaimed = false;
 
     void setCustomMode(int mode, int brightness);
     int registerKeyboard();
     int getFeatureReport();
+    int getLightbarReport();
 };
 
 #endif // RGBKEYBOARD_H

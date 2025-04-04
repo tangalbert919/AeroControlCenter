@@ -8,7 +8,8 @@ RGBKeyboard::RGBKeyboard()
 {
     int res;
     libusb_device **list;
-    libusb_device *found = NULL;
+    libusb_device *keyboard_found = NULL;
+    libusb_device *lightbar_found = NULL;
     struct libusb_device_descriptor desc = {0};
     ssize_t cnt = 0;
 
@@ -29,36 +30,68 @@ RGBKeyboard::RGBKeyboard()
         if (res)
             goto done;
         if (desc.idVendor == CHU_YUEN || (desc.idVendor == GIGABYTE && desc.idProduct == 0x8004)) {
-            found = device;
-            break;
+            keyboard_found = device;
+            continue;
+        }
+        if (desc.idVendor == GIGABYTE && desc.idProduct == 0x8011) {
+            lightbar_found = device;
+            if (keyboard_found != NULL) {
+                break;
+            }
+            continue;
         }
     }
 
-    if (found) {
-        res = libusb_open(found, &handle);
+    if (keyboard_found) {
+        res = libusb_open(keyboard_found, &keyboard_handle);
         if (res) {
-            qInfo("Could not open device");
+            qInfo("Could not open keyboard");
             goto done;
         }
         keyboardAttached = true;
     } else
         goto done;
 
+    // Present on some AORUS models.
+    if (lightbar_found) {
+        res = libusb_open(lightbar_found, &light_bar);
+        if (res) {
+            qInfo("Could not open light bar");
+            goto done;
+        }
+        lightbarAttached = true;
+    }
+
     libusb_free_device_list(list, 1);
 
-    res = libusb_set_auto_detach_kernel_driver(handle, 1);
+    res = libusb_set_auto_detach_kernel_driver(keyboard_handle, 1);
     if (res) {
         qInfo("Could not enable automatic kernel driver detachment");
         goto done;
     }
 
-    // Claim interface 3. This interface handles RGB.
-    res = libusb_claim_interface(handle, 3);
+    res = libusb_set_auto_detach_kernel_driver(light_bar, 1);
     if (res) {
-        qInfo("Failed to claim interface");
+        qInfo("Could not enable automatic kernel driver detachment from light bar");
         goto done;
     }
-    interfaceClaimed = true;
+
+    // Claim interface 3. This interface handles RGB.
+    res = libusb_claim_interface(keyboard_handle, 3);
+    if (res) {
+        qInfo("Failed to claim keyboard RGB interface");
+        goto done;
+    }
+    keyboardClaimed = true;
+
+    if (lightbarAttached) {
+        res = libusb_claim_interface(light_bar, 3);
+        if (res) {
+            qInfo("Failed to claim light bar interface");
+            goto done;
+        }
+    }
+    lightbarClaimed = true;
 
     // Get current keyboard configuration
     res = getFeatureReport();
@@ -72,13 +105,21 @@ done:
 RGBKeyboard::~RGBKeyboard()
 {
     // Shutdown libusb. Must ALWAYS happen when the application closes.
-    if (interfaceClaimed) {
-        int res = libusb_release_interface(handle, 3);
+    if (keyboardClaimed) {
+        int res = libusb_release_interface(keyboard_handle, 3);
         if (res)
-            qInfo("Failed to release interface");
+            qInfo("Failed to release keyboard interface");
     }
     if (keyboardAttached) {
-        libusb_close(handle);
+        libusb_close(keyboard_handle);
+    }
+    if (lightbarClaimed) {
+        int res = libusb_release_interface(light_bar, 3);
+        if (res)
+            qInfo("Failed to release light bar interface");
+    }
+    if (lightbarAttached) {
+        libusb_close(light_bar);
     }
     libusb_exit(NULL);
 }
@@ -112,7 +153,7 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
         chksum += data[i];
     packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
 
-    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0)
         qWarning("Failed to set RGB");
 
@@ -133,20 +174,20 @@ void RGBKeyboard::getCustomModeLayout()
 
     packet.instruction = RGB_READCONFIG;
     packet.checksum = (0xFF - (RGB_READCONFIG & 0xFF));
-    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0) {
         qWarning("Unable to enter report reading mode");
         return;
     }
     // Call IN endpoint to start the transfer
-    res = libusb_control_transfer(handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    res = libusb_control_transfer(keyboard_handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0) {
         qWarning("Unable to start transfer");
         return;
     }
     for (uint8_t i = 0; i < 8; i++) {
         int transferred = 0;
-        res = libusb_interrupt_transfer(handle, 0x85, m_white_data + (i * 64), 64, &transferred, 50);
+        res = libusb_interrupt_transfer(keyboard_handle, 0x85, m_white_data + (i * 64), 64, &transferred, 50);
         if (res < 0 || transferred != 64)
             qInfo("Interrupt transfer failed at index %d: ret is %d, transferred is %d", i, res, transferred);
     }
@@ -179,14 +220,14 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
         chksum += data[i];
     packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
 
-    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0)
         qWarning("Failed to enter programming mode");
 
     // TODO: Push custom data instead
     for (uint8_t i = 0; i < 8; i++) {
         int transferred = 0;
-        res = libusb_interrupt_transfer(handle, 0x06, m_white_data + (i * 64), 64, &transferred, 0);
+        res = libusb_interrupt_transfer(keyboard_handle, 0x06, m_white_data + (i * 64), 64, &transferred, 0);
         if (res < 0 || transferred != 64)
             qInfo("Interrupt transfer failed");
     }
@@ -200,7 +241,7 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
         chksum += data[i];
     packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
 
-    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0)
         qWarning("Failed to set RGB");
 }
@@ -218,15 +259,18 @@ int RGBKeyboard::getFeatureReport()
     int res;
 
     packet.instruction = RGB_GETREPORT;
-    packet.checksum = (uint8_t)(0xFF - (RGB_GETREPORT & 0xFF));
+    // If light bar is present, set reserved or we get no configuration.
+    if (lightbarClaimed)
+        packet.reserved = 0x02;
+    packet.checksum = (uint8_t)(0xFF - (RGB_GETREPORT & 0xFF) - packet.reserved);
 
-    res = libusb_control_transfer(handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0) {
         qWarning("Unable to enter report reading mode");
         goto done;
     }
     // Now we can get the report from the input endpoint.
-    res = libusb_control_transfer(handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    res = libusb_control_transfer(keyboard_handle, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0) {
         qWarning("Unable to obtain report");
         goto done;
@@ -247,7 +291,20 @@ int RGBKeyboard::getFeatureReport()
         getCustomModeLayout();
     }
 
+    if (lightbarClaimed)
+        getLightbarReport();
+
 done:
     qInfo("RGB finished, got %d", packet.mode);
+    return 0;
+}
+
+int RGBKeyboard::getLightbarReport() {
+    packet packet;
+    int res;
+
+    // TODO: Implement
+    packet.instruction = RGB_GETREPORT;
+
     return 0;
 }
