@@ -269,14 +269,14 @@ void MainWindow::setupRGB()
         rgbView->adjustBrush(ui->rgbRedBox->value(), 0);
     });
 
-    ui->rgbModes->setCurrentIndex(rgb->current.mode);
-    if (rgb->current.color < 0) // For modes not requiring color selection
+    ui->rgbModes->setCurrentIndex(rgb->keyboard_rgb.mode);
+    if (rgb->keyboard_rgb.color < 0) // For modes not requiring color selection
         ui->rgbColors->setCurrentIndex(0);
     else
-        ui->rgbColors->setCurrentIndex(rgb->current.color);
-    ui->rgbRandom->setChecked(rgb->current.random);
-    ui->rgbBrightnessSlider->setSliderPosition(rgb->current.brightness);
-    ui->rgbSpeedSlider->setSliderPosition(rgb->current.speed);
+        ui->rgbColors->setCurrentIndex(rgb->keyboard_rgb.color);
+    ui->rgbRandom->setChecked(rgb->keyboard_rgb.random);
+    ui->rgbBrightnessSlider->setSliderPosition(rgb->keyboard_rgb.brightness);
+    ui->rgbSpeedSlider->setSliderPosition(rgb->keyboard_rgb.speed);
 }
 
 // Add new slots below this comment.

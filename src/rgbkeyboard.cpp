@@ -159,11 +159,11 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
 
     if (mode > 12)
         setCustomMode(mode, brightness);
-    current.brightness = brightness;
-    current.mode = mode;
-    current.speed = speed;
-    current.color = color;
-    current.random = random;
+    keyboard_rgb.brightness = brightness;
+    keyboard_rgb.mode = mode;
+    keyboard_rgb.speed = speed;
+    keyboard_rgb.color = color;
+    keyboard_rgb.random = random;
 }
 
 void RGBKeyboard::getCustomModeLayout()
@@ -277,15 +277,18 @@ int RGBKeyboard::getFeatureReport()
     }
     // Send needed data to set initial RGB UI settings
     if (packet.mode >= CUSTOM_ONE) {
-        current.mode = packet.mode - 38;
-        current.color = packet.color;
+        keyboard_rgb.mode = packet.mode - 38;
+        keyboard_rgb.color = packet.color;
     } else {
-        current.mode = packet.mode - 1;
-        current.color = packet.color - 1;
+        keyboard_rgb.mode = packet.mode - 1;
+        keyboard_rgb.color = packet.color - 1;
     }
-    current.brightness = packet.brightness / 25;
-    current.speed = 11 - packet.speed;
-    current.random = packet.color & 0x08;
+    keyboard_rgb.brightness = packet.brightness / 25;
+    keyboard_rgb.speed = 11 - packet.speed;
+    keyboard_rgb.random = packet.color & 0x08;
+
+    qInfo("Packet debug: instruction %d reserved %d mode %d speed %d brightness %d color %d offset %d checksum %d",
+          packet.instruction, packet.reserved, packet.mode, packet.speed, packet.brightness, packet.color, packet.offset, packet.checksum);
 
     if (packet.mode >= CUSTOM_ONE) {
         getCustomModeLayout();
@@ -303,8 +306,27 @@ int RGBKeyboard::getLightbarReport() {
     packet packet;
     int res;
 
-    // TODO: Implement
     packet.instruction = RGB_GETREPORT;
+    packet.checksum = (uint8_t) 0xFF - (RGB_GETREPORT & 0xFF);
 
+    res = libusb_control_transfer(light_bar, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0) {
+        qWarning("Unable to enter report reading mode");
+        goto done;
+    }
+
+    res = libusb_control_transfer(light_bar, 0xA1, 0x01, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0) {
+        qWarning("Unable to obtain report");
+        goto done;
+    }
+
+    lightbar_rgb.mode = packet.mode;
+    lightbar_rgb.speed = packet.speed;
+    lightbar_rgb.brightness = packet.brightness;
+    lightbar_rgb.color = packet.color;
+    lightbar_rgb.random = packet.color & 0x08;
+
+done:
     return 0;
 }

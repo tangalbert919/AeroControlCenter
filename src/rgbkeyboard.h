@@ -18,7 +18,8 @@ class RGBKeyboard : public QObject
 {
     Q_OBJECT
 public:
-    rgb_settings current;
+    rgb_settings keyboard_rgb;
+    rgb_settings lightbar_rgb;
     RGBKeyboard();
     ~RGBKeyboard();
 
