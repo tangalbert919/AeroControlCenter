@@ -50,7 +50,7 @@ void RGBGraphicsView::changeMode(int mode)
     if (mode == 0) { // static
         changeColors(this->color);
     } else if (mode > 12) {
-        rgb->getCustomModeLayout();
+        rgb->getCustomModeLayout(mode);
     }
 }
 

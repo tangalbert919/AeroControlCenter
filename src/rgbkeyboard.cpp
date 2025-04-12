@@ -166,14 +166,15 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
     keyboard_rgb.random = random;
 }
 
-void RGBKeyboard::getCustomModeLayout()
+void RGBKeyboard::getCustomModeLayout(int mode)
 {
     // Set keyboard mode to read config for custom mode
     packet packet;
     int res;
 
     packet.instruction = RGB_READCONFIG;
-    packet.checksum = (0xFF - (RGB_READCONFIG & 0xFF));
+    packet.mode = mode - 13;
+    packet.checksum = (0xFF - ((RGB_READCONFIG - packet.mode) & 0xFF));
     res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0) {
         qWarning("Unable to enter report reading mode");
