@@ -174,7 +174,8 @@ void RGBKeyboard::getCustomModeLayout(int mode)
 
     packet.instruction = RGB_READCONFIG;
     packet.mode = mode - 13;
-    packet.checksum = (0xFF - ((RGB_READCONFIG - packet.mode) & 0xFF));
+    packet.offset = 0x01;
+    packet.checksum = (0xFF - ((RGB_READCONFIG - packet.mode - packet.offset) & 0xFF));
     res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0) {
         qWarning("Unable to enter report reading mode");
@@ -292,7 +293,7 @@ int RGBKeyboard::getFeatureReport()
           packet.instruction, packet.reserved, packet.mode, packet.speed, packet.brightness, packet.color, packet.offset, packet.checksum);
 
     if (packet.mode >= CUSTOM_ONE) {
-        getCustomModeLayout();
+        getCustomModeLayout(keyboard_rgb.mode);
     }
 
     if (lightbarClaimed)
