@@ -70,10 +70,12 @@ RGBKeyboard::RGBKeyboard()
         goto done;
     }
 
-    res = libusb_set_auto_detach_kernel_driver(light_bar, 1);
-    if (res) {
-        qInfo("Could not enable automatic kernel driver detachment from light bar");
-        goto done;
+    if (lightbarAttached) {
+        res = libusb_set_auto_detach_kernel_driver(light_bar, 1);
+        if (res) {
+            qInfo("Could not enable automatic kernel driver detachment from light bar");
+            goto done;
+        }
     }
 
     // Claim interface 3. This interface handles RGB.
@@ -90,8 +92,8 @@ RGBKeyboard::RGBKeyboard()
             qInfo("Failed to claim light bar interface");
             goto done;
         }
+        lightbarClaimed = true;
     }
-    lightbarClaimed = true;
 
     // Get current keyboard configuration
     res = getFeatureReport();
