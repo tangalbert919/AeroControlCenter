@@ -168,6 +168,13 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
     keyboard_rgb.random = random;
 }
 
+void RGBKeyboard::setKeyRGB(int index, int r, int g, int b) {
+    m_white_data[index*4] = 0x00;
+    m_white_data[index*4+1] = r;
+    m_white_data[index*4+2] = g;
+    m_white_data[index*4+3] = b;
+}
+
 void RGBKeyboard::getCustomModeLayout(int mode)
 {
     // Set keyboard mode to read config for custom mode

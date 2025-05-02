@@ -82,6 +82,12 @@ void RGBGraphicsView::mousePressEvent(QMouseEvent *event)
         QGraphicsRectItem *rect = qgraphicsitem_cast<QGraphicsRectItem*>(item);
         rect->setBrush(customBrush);
         rect->update();
+        if (!rect->data(0).toString().isEmpty()) {
+            qInfo("Data: %d", rect->data(0).toInt());
+            int index = rect->data(0).toInt() * 4;
+            rgb->setKeyRGB(index, customBrush.color().red(),
+                           customBrush.color().green(), customBrush.color().blue());
+        }
     }
 }
 
