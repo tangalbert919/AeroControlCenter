@@ -213,6 +213,11 @@ void RGBKeyboard::getCustomModeLayout(int mode)
     }
 }
 
+uint8_t *RGBKeyboard::getKeyRGB()
+{
+    return m_white_data;
+}
+
 void RGBKeyboard::setCustomMode(int mode, int brightness)
 {
     packet packet;

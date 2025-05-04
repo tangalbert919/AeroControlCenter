@@ -27,6 +27,7 @@ public slots:
     void setKeyboardRGB(int mode, int speed, int brightness, int color, int random);
     void setKeyRGB(int index, int r, int g, int b);
     void getCustomModeLayout(int mode);
+    uint8_t *getKeyRGB();
 
 private:
     libusb_device_handle *keyboard_handle, *light_bar;

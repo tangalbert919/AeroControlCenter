@@ -50,7 +50,18 @@ void RGBGraphicsView::changeMode(int mode)
     if (mode == 0) { // static
         changeColors(this->color);
     } else if (mode > 12) {
+        uint8_t *rgb_data = rgb->getKeyRGB();
         rgb->getCustomModeLayout(mode);
+        for (int i = 0; i < 128; i++) {
+            for (auto j = items.begin(), end = items.end(); j != end; j++) {
+                QGraphicsRectItem *rect = qgraphicsitem_cast<QGraphicsRectItem*>(*j);
+                if (!rect->data(0).toString().isEmpty() && rect->data(0).toInt() == i) {
+                    rect->setBrush(QBrush(QColor(rgb_data[i*4+1], rgb_data[i*4+2], rgb_data[i*4+3])));
+                    rect->update();
+                    break;
+                }
+            }
+        }
     }
 }
 
