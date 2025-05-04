@@ -95,7 +95,7 @@ void RGBGraphicsView::mousePressEvent(QMouseEvent *event)
         rect->update();
         if (!rect->data(0).toString().isEmpty()) {
             qInfo("Data: %d", rect->data(0).toInt());
-            int index = rect->data(0).toInt() * 4;
+            int index = rect->data(0).toInt();
             rgb->setKeyRGB(index, customBrush.color().red(),
                            customBrush.color().green(), customBrush.color().blue());
         }
@@ -135,7 +135,7 @@ void RGBGraphicsView::setupLayout()
         scene->addItem(key);
     }
     // Third row
-    int thr_row_index[17] = {9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 93, 99, 105, 111};
+    int thr_row_index[17] = {9, 15, 21, 27, 33, 39, 45, 51, 57, 63, 69, 75, 81, 87, 99, 105, 111};
     for (int i = 0; i < 17; i++) {
         QGraphicsRectItem* key;
         if (i == 0) // Tab button
