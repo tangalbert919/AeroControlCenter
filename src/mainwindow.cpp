@@ -232,11 +232,11 @@ void MainWindow::setupRGB()
     });
 
     rgbView = new RGBGraphicsView(ui->rgbTab);
-    rgbView->setFixedSize(780,422);
+    rgbView->setFixedSize(780,242);
     rgbView->move(0,10);
     rgbScene = new QGraphicsScene(this);
     rgbView->setScene(rgbScene);
-    rgbScene->setSceneRect(0,0,760,420);
+    rgbScene->setSceneRect(0,0,760,240);
     rgbView->setupLayout();
 
     rgbView->bindKeyboard(rgb);
