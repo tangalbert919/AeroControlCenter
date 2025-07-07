@@ -36,7 +36,6 @@ private:
     bool lightbarAttached = false, lightbarClaimed = false;
 
     void setCustomMode(int mode, int brightness);
-    int registerKeyboard();
     int getFeatureReport();
     int getLightbarReport();
 };

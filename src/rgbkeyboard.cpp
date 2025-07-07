@@ -270,12 +270,6 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
         qWarning("Failed to set RGB");
 }
 
-int RGBKeyboard::registerKeyboard()
-{
-    // TODO: Reimplement with libusb
-    return 0;
-}
-
 int RGBKeyboard::getFeatureReport()
 {
     packet packet;
