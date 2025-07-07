@@ -259,7 +259,7 @@ void MainWindow::setupRGB()
     });
     connect(ui->rgbColors, &QComboBox::currentIndexChanged,
             rgbView, &RGBGraphicsView::changeColors);
-    connect(ui->rgbRandom, &QCheckBox::stateChanged, ui->rgbColors, &QComboBox::setDisabled);
+    connect(ui->rgbRandom, &QCheckBox::checkStateChanged, ui->rgbColors, &QComboBox::setDisabled);
     connect(ui->rgbBlueBox, &QSpinBox::valueChanged, rgbView, [=]() {
         rgbView->adjustBrush(ui->rgbBlueBox->value(), 2);
     });
