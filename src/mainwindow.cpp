@@ -228,7 +228,8 @@ void MainWindow::setupRGB()
         int brightness = ui->rgbBrightnessSlider->value();
         int color = ui->rgbColors->currentIndex();
         int random = ui->rgbRandom->isChecked();
-        rgb->setKeyboardRGB(mode, speed, brightness, color, random);
+        bool lightbar = ui->lightbarToggle->isChecked();
+        rgb->setKeyboardRGB(mode, speed, brightness, color, random, lightbar);
     });
 
     rgbView = new RGBGraphicsView(ui->rgbTab);

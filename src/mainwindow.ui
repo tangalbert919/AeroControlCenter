@@ -664,6 +664,19 @@
        </property>
       </item>
      </widget>
+     <widget class="QCheckBox" name="lightbarToggle">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>410</y>
+        <width>96</width>
+        <height>24</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Light Bar</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

@@ -128,6 +128,11 @@ RGBKeyboard::~RGBKeyboard()
 
 void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color, int random)
 {
+    setKeyboardRGB(mode, speed, brightness, color, random, false);
+}
+
+void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color, int random, bool lightbar)
+{
     packet packet;
     uint16_t chksum = 0;
     uint8_t *data = (uint8_t*) &packet;
@@ -139,7 +144,10 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
     }
 
     packet.instruction = RGB_MODE;
-    packet.reserved = 0x00;
+    if (!lightbar)
+        packet.reserved = 0x00;
+    else
+        packet.reserved = 0x02;
     if (mode <= 12)
         packet.mode = mode + 1;
     else
