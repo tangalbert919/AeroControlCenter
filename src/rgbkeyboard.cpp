@@ -176,7 +176,8 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
     keyboard_rgb.random = random;
 }
 
-void RGBKeyboard::setKeyRGB(int index, int r, int g, int b) {
+void RGBKeyboard::setKeyRGB(int index, int r, int g, int b)
+{
     m_white_data[index*4] = 0x00;
     m_white_data[index*4+1] = r;
     m_white_data[index*4+2] = g;
@@ -320,7 +321,8 @@ done:
     return 0;
 }
 
-int RGBKeyboard::getLightbarReport() {
+int RGBKeyboard::getLightbarReport()
+{
     packet packet;
     int res;
 
