@@ -692,6 +692,148 @@
        </property>
       </item>
      </widget>
+     <widget class="QGroupBox" name="rgbZoneGroup">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>380</y>
+        <width>751</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Per-Zone RGB</string>
+      </property>
+      <widget class="QSpinBox" name="leftZoneR">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="leftZoneG">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="leftZoneB">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="centerZoneR">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="centerZoneG">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="centerZoneB">
+       <property name="geometry">
+        <rect>
+         <x>400</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="rightZoneR">
+       <property name="geometry">
+        <rect>
+         <x>580</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="rightZoneG">
+       <property name="geometry">
+        <rect>
+         <x>640</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="rightZoneB">
+       <property name="geometry">
+        <rect>
+         <x>700</x>
+         <y>30</y>
+         <width>47</width>
+         <height>28</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="leftLabel">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>60</y>
+         <width>70</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Left Zone</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="centerLabel">
+       <property name="geometry">
+        <rect>
+         <x>320</x>
+         <y>60</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Center Zone</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="rightLabel">
+       <property name="geometry">
+        <rect>
+         <x>610</x>
+         <y>60</y>
+         <width>81</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Right Zone</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
   </widget>
