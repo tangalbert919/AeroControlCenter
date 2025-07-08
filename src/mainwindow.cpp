@@ -256,6 +256,13 @@ void MainWindow::setupRGB()
             ui->rgbColors->setHidden(false);
             ui->rgbRandom->setHidden(false);
         }
+        if (ui->rgbModes->currentIndex() < 12)
+            ui->rgbCustomModes->setHidden(true);
+        else
+            ui->rgbCustomModes->setHidden(false);
+    });
+    connect(ui->rgbCustomModes, &QComboBox::currentIndexChanged, rgbView, [=]() {
+        rgbView->changeMode(ui->rgbCustomModes->currentIndex() + 13);
     });
     connect(ui->rgbColors, &QComboBox::currentIndexChanged,
             rgbView, &RGBGraphicsView::changeColors);
@@ -270,7 +277,15 @@ void MainWindow::setupRGB()
         rgbView->adjustBrush(ui->rgbRedBox->value(), 0);
     });
 
-    ui->rgbModes->setCurrentIndex(rgb->keyboard_rgb.mode);
+    if (rgb->keyboard_rgb.mode > 12) {
+        ui->rgbModes->setCurrentIndex(12);
+        ui->rgbCustomModes->setCurrentIndex(rgb->keyboard_rgb.mode - 13);
+        ui->rgbCustomModes->setHidden(false);
+    }
+    else {
+        ui->rgbModes->setCurrentIndex(rgb->keyboard_rgb.mode);
+        ui->rgbCustomModes->setHidden(true);
+    }
     if (rgb->keyboard_rgb.color < 0) // For modes not requiring color selection
         ui->rgbColors->setCurrentIndex(0);
     else

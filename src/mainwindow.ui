@@ -428,27 +428,7 @@
       </item>
       <item>
        <property name="text">
-        <string>Custom 1</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Custom 2</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Custom 3</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Custom 4</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Custom 5</string>
+        <string>Custom</string>
        </property>
       </item>
      </widget>
@@ -676,6 +656,41 @@
       <property name="text">
        <string>Light Bar</string>
       </property>
+     </widget>
+     <widget class="QComboBox" name="rgbCustomModes">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>340</y>
+        <width>141</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Profile 1</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Profile 2</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Profile 3</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Profile 4</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Profile 5</string>
+       </property>
+      </item>
      </widget>
     </widget>
    </widget>
