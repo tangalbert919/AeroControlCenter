@@ -31,6 +31,7 @@ RGBKeyboard::RGBKeyboard()
             goto done;
         if (desc.idVendor == CHU_YUEN || (desc.idVendor == GIGABYTE && desc.idProduct == 0x8004)) {
             keyboard_found = device;
+            setRGBSupport(desc.idVendor, desc.idProduct);
             continue;
         }
         if (desc.idVendor == GIGABYTE && desc.idProduct == 0x8011) {
@@ -222,6 +223,11 @@ void RGBKeyboard::getCustomModeLayout(int mode)
     }
 }
 
+int RGBKeyboard::getCustomModeSupport()
+{
+    return rgb_support_level;
+}
+
 uint8_t *RGBKeyboard::getKeyRGB()
 {
     return m_white_data;
@@ -269,6 +275,30 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
     res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
     if (res < 0)
         qWarning("Failed to set RGB");
+}
+
+void RGBKeyboard::setRGBSupport(uint16_t idVendor, uint16_t idProduct)
+{
+    // TODO: implement
+    if (idVendor == GIGABYTE) {
+        switch (idProduct) {
+        case 0x7a3f: // 17H BXF / 17X AXF
+        case 0x7a43: // 15 BKF
+        case 0x8004: // 15 BMG/BKG
+            rgb_support_level = RGB_THREEZONE;
+        default:
+            rgb_support_level = RGB_PERKEY;
+        }
+    }
+    else if (idVendor == CHU_YUEN) {
+        switch (idProduct) {
+            // GET CASES IN
+        case 0x7a3f: // 17 YE5
+            rgb_support_level = RGB_THREEZONE;
+        default:
+            rgb_support_level = RGB_PERKEY;
+        }
+    }
 }
 
 int RGBKeyboard::getFeatureReport()
