@@ -279,22 +279,30 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
 
 void RGBKeyboard::setRGBSupport(uint16_t idVendor, uint16_t idProduct)
 {
-    // TODO: implement
     if (idVendor == GIGABYTE) {
         switch (idProduct) {
-        case 0x7a3f: // 17H BXF / 17X AXF
+        case 0x7a3a: // 16 OLED BSF
+            rgb_support_level = RGB_NONE;
+            break;
         case 0x7a43: // 15 BKF
+        case 0x7a45: // 7 9KF
         case 0x8004: // 15 BMG/BKG
+        case 0x8005: // 16X 9KG
             rgb_support_level = RGB_THREEZONE;
+            break;
         default:
             rgb_support_level = RGB_PERKEY;
         }
     }
     else if (idVendor == CHU_YUEN) {
         switch (idProduct) {
-            // GET CASES IN
-        case 0x7a3f: // 17 YE5
+        case 0x7a3a: // 16 XE4/5
+        case 0x7a40: // AERO 5 XE
+            rgb_support_level = RGB_NONE;
+            break;
+        case 0x7a41: // AORUS 5 KE
             rgb_support_level = RGB_THREEZONE;
+            break;
         default:
             rgb_support_level = RGB_PERKEY;
         }
