@@ -432,24 +432,11 @@
        </property>
       </item>
      </widget>
-     <widget class="QCheckBox" name="rgbEnabled">
-      <property name="geometry">
-       <rect>
-        <x>160</x>
-        <y>260</y>
-        <width>84</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Enabled</string>
-      </property>
-     </widget>
      <widget class="QCheckBox" name="rgbRandom">
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>300</y>
+        <y>260</y>
         <width>84</width>
         <height>24</height>
        </rect>
@@ -648,8 +635,8 @@
       <property name="geometry">
        <rect>
         <x>160</x>
-        <y>340</y>
-        <width>96</width>
+        <y>300</y>
+        <width>91</width>
         <height>24</height>
        </rect>
       </property>
