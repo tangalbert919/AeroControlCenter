@@ -50,6 +50,9 @@ void RGBGraphicsView::changeMode(int mode)
     if (mode == 0) { // static
         changeColors(this->color);
     } else if (mode > 12) {
+        // Don't get layout if per-key RGB isn't supported.
+        if (rgb->getCustomModeSupport() != RGB_PERKEY)
+            return;
         uint8_t *rgb_data = rgb->getKeyRGB();
         rgb->getCustomModeLayout(mode);
         for (int i = 0; i < 128; i++) {
