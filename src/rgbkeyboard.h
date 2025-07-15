@@ -34,6 +34,7 @@ public slots:
     void setKeyboardRGB(int mode, int speed, int brightness, int color, int random);
     void setKeyboardRGB(int mode, int speed, int brightness, int color, int random, bool lightbar);
     void setKeyRGB(int index, int r, int g, int b);
+    void setZoneRGB(int zone, int r, int g, int b);
     void getCustomModeLayout(int mode);
     int getCustomModeSupport();
     uint8_t *getKeyRGB();

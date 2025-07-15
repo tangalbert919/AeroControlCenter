@@ -139,6 +139,11 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
     uint8_t *data = (uint8_t*) &packet;
     int res;
 
+    if (mode == 20) {
+        setCustomMode(mode, brightness);
+        return;
+    }
+
     if (!keyboardAttached) {
         qInfo("RGB is not supported on this machine");
         return;
@@ -183,6 +188,32 @@ void RGBKeyboard::setKeyRGB(int index, int r, int g, int b)
     m_white_data[index*4+1] = r;
     m_white_data[index*4+2] = g;
     m_white_data[index*4+3] = b;
+}
+
+void RGBKeyboard::setZoneRGB(int zone, int r, int g, int b)
+{
+    packet packet;
+    uint16_t chksum = 0;
+    uint8_t *data = (uint8_t*) &packet;
+    int res;
+
+    // setting each zone's RGB
+    packet.instruction = RGB_MODE;
+    packet.reserved = zone; // 3 is left, 4 is center, 5 is right
+    // mode, speed, and brightness are used as RGB for zones
+    packet.mode = r;
+    packet.speed = g;
+    packet.brightness = b;
+    packet.color = 0x32;
+    packet.offset = 0x00;
+    for (int i = 0; i < 7; i++)
+        chksum += data[i];
+    packet.checksum = (uint8_t)(0xFF - (chksum & 0xFF));
+    res = libusb_control_transfer(keyboard_handle, 0x21, 0x09, 0x300, 0x03, (uint8_t*)&packet, 0x08, 0);
+    if (res < 0) {
+        qWarning("Unable to set zone RGB");
+        return;
+    }
 }
 
 void RGBKeyboard::getCustomModeLayout(int mode)
@@ -240,6 +271,8 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
     uint8_t *data = (uint8_t*) &packet;
     int res;
 
+    if (mode == 20)
+        goto skip_layout;
     packet.instruction = RGB_PROGRAM;
     packet.reserved = 0x00;
     packet.mode = mode - 13; // Custom Profile index is zero-based
@@ -264,8 +297,12 @@ void RGBKeyboard::setCustomMode(int mode, int brightness)
     }
 
     // Select custom profile again
+skip_layout:
+    if (mode == 20)
+        packet.mode = 0x00;
+    else
+        packet.mode = mode + 38;
     packet.instruction = RGB_MODE;
-    packet.mode = mode + 38;
     packet.brightness = brightness * 25;
     packet.offset = 0x01; // does nothing
     for (int i = 0; i < 7; i++)

@@ -229,7 +229,14 @@ void MainWindow::setupRGB()
         int color = ui->rgbColors->currentIndex();
         int random = ui->rgbRandom->isChecked();
         bool lightbar = ui->lightbarToggle->isChecked();
-        rgb->setKeyboardRGB(mode, speed, brightness, color, random, lightbar);
+        if (rgb->getCustomModeSupport() == RGB_THREEZONE && mode > 12) {
+            rgb->setKeyboardRGB(20, speed, brightness, color, random, lightbar);
+            rgb->setZoneRGB(3, ui->leftZoneR->value(), ui->leftZoneG->value(), ui->leftZoneB->value());
+            rgb->setZoneRGB(4, ui->centerZoneR->value(), ui->centerZoneG->value(), ui->centerZoneB->value());
+            rgb->setZoneRGB(5, ui->rightZoneR->value(), ui->rightZoneG->value(), ui->rightZoneB->value());
+        }
+        else
+            rgb->setKeyboardRGB(mode, speed, brightness, color, random, lightbar);
     });
 
     rgbView = new RGBGraphicsView(ui->rgbTab);
