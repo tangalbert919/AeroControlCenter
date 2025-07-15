@@ -700,6 +700,9 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
       </widget>
       <widget class="QSpinBox" name="leftZoneG">
        <property name="geometry">
@@ -709,6 +712,9 @@
          <width>47</width>
          <height>28</height>
         </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
        </property>
       </widget>
       <widget class="QSpinBox" name="leftZoneB">
@@ -720,6 +726,9 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
       </widget>
       <widget class="QSpinBox" name="centerZoneR">
        <property name="geometry">
@@ -729,6 +738,9 @@
          <width>47</width>
          <height>28</height>
         </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
        </property>
       </widget>
       <widget class="QSpinBox" name="centerZoneG">
@@ -740,6 +752,9 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
       </widget>
       <widget class="QSpinBox" name="centerZoneB">
        <property name="geometry">
@@ -749,6 +764,9 @@
          <width>47</width>
          <height>28</height>
         </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
        </property>
       </widget>
       <widget class="QSpinBox" name="rightZoneR">
@@ -760,6 +778,9 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
       </widget>
       <widget class="QSpinBox" name="rightZoneG">
        <property name="geometry">
@@ -770,6 +791,9 @@
          <height>28</height>
         </rect>
        </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
       </widget>
       <widget class="QSpinBox" name="rightZoneB">
        <property name="geometry">
@@ -779,6 +803,9 @@
          <width>47</width>
          <height>28</height>
         </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
        </property>
       </widget>
       <widget class="QLabel" name="leftLabel">
