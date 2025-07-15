@@ -223,7 +223,7 @@ void MainWindow::setupMenu()
 void MainWindow::setupRGB()
 {
     connect(ui->rgbSetBtn, &QPushButton::clicked, rgb, [=]() {
-        int mode = ui->rgbModes->currentIndex();
+        int mode = ui->rgbModes->currentIndex() + ui->rgbCustomModes->currentIndex();
         int speed = ui->rgbSpeedSlider->value();
         int brightness = ui->rgbBrightnessSlider->value();
         int color = ui->rgbColors->currentIndex();
