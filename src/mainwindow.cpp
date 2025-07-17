@@ -263,7 +263,7 @@ void MainWindow::setupRGB()
             ui->rgbColors->setHidden(false);
             ui->rgbRandom->setHidden(false);
         }
-        if (ui->rgbModes->currentIndex() < 12) {
+        if (ui->rgbModes->currentIndex() < 13) {
             if (rgb->getCustomModeSupport() == RGB_THREEZONE)
                 ui->rgbZoneGroup->setHidden(true);
             else
@@ -298,7 +298,7 @@ void MainWindow::setupRGB()
         ui->rgbZoneGroup->setHidden(true);
 
     if (rgb->keyboard_rgb.mode > 12) {
-        ui->rgbModes->setCurrentIndex(12);
+        ui->rgbModes->setCurrentIndex(13);
         if (rgb->getCustomModeSupport() == RGB_THREEZONE)
             ui->rgbZoneGroup->setHidden(false);
         else {
