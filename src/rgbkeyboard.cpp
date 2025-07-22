@@ -150,7 +150,7 @@ void RGBKeyboard::setKeyboardRGB(int mode, int speed, int brightness, int color,
     }
 
     packet.instruction = RGB_MODE;
-    if (!lightbar)
+    if (!lightbar || (lightbar && !lightbarAttached))
         packet.reserved = 0x00;
     else
         packet.reserved = 0x02;
