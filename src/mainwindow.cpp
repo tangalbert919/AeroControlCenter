@@ -54,6 +54,19 @@ MainWindow::MainWindow(QWidget *parent)
     ui->fan1RPM->display(0);
     ui->fan2RPM->display(0);
 
+    // Get current fan mode.
+    short mode = ec->getFanMode();
+    QString temp("Fan Modes (current: ");
+    if (mode == 0)
+        temp.append("Normal)");
+    else if (mode == 1)
+        temp.append("Silent)");
+    else if (mode == 2)
+        temp.append("Gaming)");
+    else if (mode == 3)
+        temp.append("Custom)");
+    ui->fanModeLabel->setText(temp);
+
     // Setup the fan speed controls. Only effective in custom mode.
     connect(ui->fanCustomSlider, &QSlider::sliderReleased, this, &MainWindow::updateSliderPosition);
     connect(ui->fanCustomSlider, &QSlider::valueChanged, this,
